@@ -221,3 +221,79 @@ main{ padding-top: 96px; }
   .section-head{align-items:flex-start}
   .care-card__top{align-items:center}
 }
+
+/* Cake Cutting Guide: scoped to Delivery, with stable QR-link target. */
+.cutting-guide {
+  margin-top: 38px;
+  padding: 30px;
+  border: 1px solid #e7d9ce;
+  border-radius: 24px;
+  background: #fffdf9;
+  box-shadow: 0 12px 40px rgba(74, 47, 31, .035);
+  scroll-margin-top: 110px;
+  color: #493c34;
+}
+.cutting-heading { display: flex; align-items: flex-start; gap: 24px; justify-content: space-between; }
+.cutting-guide .cutting-kicker { color: #886343; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; margin: 0 0 9px; }
+.cutting-guide h3 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px, 3.4vw, 40px); font-weight: 400; line-height: 1.15; color: #49372d; margin: 0 0 12px; }
+.cutting-guide .cutting-intro { max-width: 710px; color: #655950; line-height: 1.65; font-size: 15px; margin: 0; }
+.cutting-tag { flex: 0 0 auto; font-size: 12px; padding: 7px 12px; border: 1px solid #e6d7bc; border-radius: 100px; background: #fbf4e5; color: #775723; margin-top: 4px; }
+.cutting-prep { display: flex; gap: 12px; padding: 16px 18px; margin: 23px 0; border-radius: 12px; background: #f5eee6; }
+.cutting-prep > i { color: #886343; font-size: 20px; line-height: 1.45; }
+.cutting-guide .cutting-prep p { font-size: 14px; line-height: 1.65; margin: 0; color: #574a40; }
+.cutting-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; list-style: none; padding: 0; margin: 0; }
+.cutting-step { min-width: 0; position: relative; }
+.cutting-step figure { margin: 0; }
+.cutting-picture { position: relative; background: #fff8f1; border-radius: 13px; overflow: hidden; border: 1px solid #eee3d8; }
+.cutting-picture img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; }
+.cutting-number { position: absolute; z-index: 1; top: 8px; left: 8px; width: 29px; height: 29px; border-radius: 50%; display: grid; place-items: center; background: #fffdf9; color: #634b37; border: 1px solid #e4d4c1; font-size: 11px; font-weight: 700; }
+.cutting-step:not(:last-child)::after { content: '\2192'; position: absolute; top: 58px; right: -21px; z-index: 2; width: 24px; height: 24px; line-height: 22px; text-align: center; background: #fffdf9; color: #96714a; border: 1px solid #e7d9ce; border-radius: 50%; }
+.cutting-step figcaption { padding: 15px 2px 0; }
+.cutting-guide h4 { color: #49372d; font-size: 16px; font-weight: 700; line-height: 1.4; margin: 0 0 8px; }
+.cutting-step p { font-size: 14px; line-height: 1.65; margin: 0; color: #655950; }
+.cutting-step strong { font-weight: 600; }
+.cutting-tip { display: flex; gap: 10px; margin: 23px 0 17px; padding: 14px 0; border-top: 1px solid #eee3d8; border-bottom: 1px solid #eee3d8; }
+.cutting-tip i { color: #937140; }
+.cutting-guide .cutting-tip p { margin: 0; color: #655950; font-size: 14px; line-height: 1.6; }
+.cutting-extras details { border-bottom: 1px solid #eee3d8; }
+.cutting-extras summary { min-height: 48px; padding: 14px 32px 14px 0; font-size: 14px; font-weight: 600; line-height: 1.5; position: relative; cursor: pointer; list-style: none; color: #493c34; }
+.cutting-extras summary::-webkit-details-marker { display: none; }
+.cutting-extras summary::after { content: '+'; position: absolute; right: 5px; top: 11px; font-size: 22px; font-weight: 400; color: #886343; }
+.cutting-extras details[open] summary::after { content: '\2212'; }
+.cutting-extras summary:hover { color: #855e34; }
+.cutting-extras summary:focus-visible { outline: 2px solid #8b653a; outline-offset: 3px; border-radius: 3px; }
+.cutting-answer { max-width: 850px; padding: 0 28px 12px 0; }
+.cutting-guide .cutting-answer p { color: #655950; font-size: 14px; line-height: 1.7; margin: 0 0 10px; }
+.cutting-guide .cutting-after { margin: 17px 0 0; color: #71645a; font-size: 12px; line-height: 1.6; }
+@media (min-width: 601px) and (max-width: 1000px) {
+  .cutting-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 25px 20px; }
+  .cutting-step::after { display: none; }
+}
+@media (max-width: 600px) {
+  .cutting-guide { padding: 20px 15px; border-radius: 18px; margin-top: 28px; scroll-margin-top: 95px; }
+  .cutting-heading { display: block; }
+  .cutting-tag { display: none; }
+  .cutting-guide .cutting-kicker { font-size: 10px; letter-spacing: .1em; }
+  .cutting-guide .cutting-intro { font-size: 14px; }
+  .cutting-prep { padding: 13px; gap: 9px; margin: 18px 0 20px; }
+  .cutting-prep > i { display: none; }
+  .cutting-guide .cutting-prep p { font-size: 13px; }
+  .cutting-steps { grid-template-columns: 1fr; gap: 23px; }
+  .cutting-step figure { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 13px; align-items: start; }
+  .cutting-step figcaption { padding: 0; }
+  .cutting-guide h4 { font-size: 15px; margin-bottom: 5px; }
+  .cutting-step p { font-size: 13px; line-height: 1.6; }
+  .cutting-number { top: 4px; left: 4px; width: 23px; height: 23px; font-size: 10px; }
+  .cutting-step:not(:last-child)::after { content: '\2193'; top: auto; right: auto; left: 47px; bottom: -22px; border: 0; background: transparent; font-size: 19px; }
+  .cutting-guide .cutting-tip p { font-size: 13px; }
+}
+@media (max-width: 359px) {
+  .cutting-step figure { grid-template-columns: 1fr; gap: 10px; }
+  .cutting-step:not(:last-child)::after { display: none; }
+}
+@media print {
+  .cutting-guide { box-shadow: none; padding: 18px; }
+  .cutting-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cutting-step { break-inside: avoid; }
+  .cutting-step::after { display: none; }
+}
