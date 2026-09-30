@@ -131,25 +131,6 @@
     }
   }
 
-  function disableUiFields(form) {
-    if (!form) return;
-
-    // Disable UI-only inputs so email stays tidy (hidden fields carry the real values)
-    try {
-      var packs = form.querySelectorAll(IDS.packRadiosSelector);
-      packs.forEach(function (el) { el.disabled = true; });
-    } catch (e) {}
-
-    var flavour = q(form, IDS.flavourSelect);
-    if (flavour) flavour.disabled = true;
-
-    var delivery = q(form, IDS.deliveryOption);
-    if (delivery) delivery.disabled = true;
-
-    var postcode = q(form, IDS.postcode);
-    if (postcode) postcode.disabled = true;
-  }
-
   function onAnyInput(e) {
     var form = getForm();
     if (!form) return;
@@ -173,7 +154,6 @@
     // Ensure hidden fields are always up to date right before submit
     form.addEventListener('submit', function () {
       updateAll(getForm());
-      disableUiFields(getForm());
     });
 
     // Initial render

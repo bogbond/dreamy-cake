@@ -199,25 +199,6 @@
     if (hiddenSummary) hiddenSummary.value = summary;
   }
 
-  function disableUiFields(form) {
-    if (!form) return;
-
-    // Disable UI-only inputs so the email stays tidy (hidden fields carry the real values)
-    try {
-      var sizeRadios = form.querySelectorAll('input[name="size_ui"]');
-      sizeRadios.forEach(function (el) { el.disabled = true; });
-
-      var styleRadios = form.querySelectorAll('input[name="style_ui"]');
-      styleRadios.forEach(function (el) { el.disabled = true; });
-    } catch (e) {}
-
-    var topperEl = q(form, IDS.topper);
-    if (topperEl) topperEl.disabled = true;
-
-    var topperTextEl = q(form, IDS.topperText);
-    if (topperTextEl) topperTextEl.disabled = true;
-  }
-
   function onAnyInput(e) {
     var form = getForm();
     if (!form) return;
@@ -242,7 +223,6 @@
     // Ensure hidden fields are always up to date right before submit
     form.addEventListener("submit", function () {
       updateAll(getForm());
-      disableUiFields(getForm());
     });
 
     // Initial render
