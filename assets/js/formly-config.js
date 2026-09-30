@@ -1,4 +1,4 @@
-/* v4.11 three form providers.
+/* v4.11.1 three form providers.
    Change only assets/data/form-provider.txt:
    0 = FormSubmit, 1 = Formly, 2 = Formspark with protected photo uploads.
 
@@ -29,6 +29,9 @@
   var allowedMimeTypes = ['image/jpeg','image/png','image/webp','image/gif','image/bmp','image/heic','image/heif','application/pdf','image/tiff'];
 
   var SKIP_NAMES = {
+    'cf-turnstile-response': true,
+    'g-recaptcha-response': true,
+    'h-captcha-response': true,
     access_key: true,
     redirect: true,
     honeypot: true,
