@@ -1,6 +1,6 @@
-/* v4.10 dual form provider mode.
+/* v4.11 three form providers.
    Change only assets/data/form-provider.txt:
-   0 = FormSubmit, 1 = Formly.
+   0 = FormSubmit, 1 = Formly, 2 = Formspark with protected photo uploads.
 
    Formly keeps the proven minimal relay request:
    access_key + name + email + message (+ one optional file).
@@ -20,6 +20,7 @@
   var PROVIDER_CONFIG_URL = '/assets/data/form-provider.txt';
   var PROVIDER_FORMSUBMIT = 0;
   var PROVIDER_FORMLY = 1;
+  var PROVIDER_FORMSPARK = 2;
   var MAX_BYTES = Math.floor(9.5 * 1024 * 1024);
   var MAX_LABEL = '10 MB';
   var SUBMIT_TIMEOUT_MS = 90000;
@@ -49,16 +50,32 @@
           .map(function(line){ return line.replace(/#.*$/, '').trim(); })
           .filter(Boolean)
           .join('');
-        if(value !== '0' && value !== '1') throw new Error('Provider config must contain only 0 or 1');
+        if(value !== '0' && value !== '1' && value !== '2') throw new Error('Provider config must contain only 0, 1 or 2');
         return Number(value);
       })
       .catch(function(error){
-        console.warn('Dreamy Cake form provider config unavailable; keeping Formly.', error);
-        return PROVIDER_FORMLY;
+        console.warn('Dreamy Cake form provider config unavailable.', error);
+        return null;
       });
   }
 
   var providerModePromise = loadProviderMode();
+  var formsparkModulePromise;
+  function loadFormsparkModule(){
+    if(!formsparkModulePromise){
+      formsparkModulePromise = new Promise(function(resolve, reject){
+        var script = document.createElement('script');
+        script.src = '/assets/js/formspark-provider.js?v=1.0.0';
+        script.onload = function(){
+          if(window.DreamyFormspark) resolve(window.DreamyFormspark);
+          else reject(new Error('The protected form service could not be loaded.'));
+        };
+        script.onerror = function(){ reject(new Error('The protected form service could not be loaded.')); };
+        document.head.appendChild(script);
+      });
+    }
+    return formsparkModulePromise;
+  }
 
   var FRIENDLY_LABELS = {
     product_name: 'Product name',
@@ -777,6 +794,23 @@
     e.preventDefault();
     if(!setSubmittingState(form, fileInput)) return;
     providerModePromise.then(function(providerMode){
+      if(providerMode === PROVIDER_FORMSPARK){
+        return loadFormsparkModule().then(function(service){
+          return service.send(form, fileInput, {
+            name: firstValue(form, ['name', 'full_name', 'customer_name']),
+            email: firstValue(form, ['email']),
+            subject: formSubmitSubject(form),
+            form: formLabel(form),
+            page: window.location.href,
+            fields: collectFields(form).map(function(row){
+              return {label: row.label || friendlyLabel(row.name), value: row.value};
+            })
+          });
+        }).then(function(){
+          window.location.assign('/Thank-You/');
+        });
+      }
+      if(providerMode == null) throw new Error('The form service is unavailable. Please contact us by email or WhatsApp.');
       if(providerMode === PROVIDER_FORMSUBMIT){
         submitFormSubmitRelay(form, fileInput);
         return;
@@ -785,13 +819,25 @@
     }).catch(function(error){
       console.error('Dreamy Cake form submission failed before sending.', error);
       clearSubmittingState(form);
-      showProviderError(form, 'The form could not be prepared. Please contact us by email or WhatsApp.');
+      showProviderError(form, error.message || 'The form could not be prepared. Please contact us by email or WhatsApp.');
     });
   }, false);
 
   function boot(){
     Array.prototype.forEach.call(document.forms || [], function(form){
       if(isFormlyForm(form)) ensureHoneypot(form);
+    });
+    providerModePromise.then(function(mode){
+      if(mode !== PROVIDER_FORMSPARK) return;
+      return loadFormsparkModule().then(function(service){
+        Array.prototype.forEach.call(document.forms || [], function(form){
+          if(isFormlyForm(form)) service.prepare(form).catch(function(error){ showProviderError(form, error.message); });
+        });
+      });
+    }).catch(function(error){
+      Array.prototype.forEach.call(document.forms || [], function(form){
+        if(isFormlyForm(form)) showProviderError(form, error.message);
+      });
     });
   }
 
