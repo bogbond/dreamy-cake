@@ -393,7 +393,7 @@
     root.innerHTML = ''
       + '<button type="button" class="express-shortcut__peek" aria-label="Open Express Menu shortcut" aria-expanded="false">'
       +   '<i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>'
-      +   '<span>Express</span>'
+      +   '<span>Express menu</span>'
       + '</button>'
       + '<div class="express-shortcut__card" role="complementary">'
       +   '<button type="button" class="express-shortcut__close" aria-label="Collapse Express Menu shortcut">'

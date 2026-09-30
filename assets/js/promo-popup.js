@@ -341,14 +341,15 @@
     if (btn) return btn;
     btn = el("button", { id: LAUNCHER_ID, class: "dc-promo-launcher", type: "button" });
     btn.setAttribute("aria-label", "Open seasonal offer");
-    btn.textContent = getLauncherLabel(cfg);
+    btn.appendChild(el("span", { class: "dc-shortcut-icon", "aria-hidden": "true", text: "✦" }));
+    btn.appendChild(el("span", { class: "dc-shortcut-label", text: getLauncherLabel(cfg) }));
     document.body.appendChild(btn);
     return btn;
   }
 
   function showLauncher(btn, cfg) {
     if (!btn) return;
-    if (cfg) btn.textContent = getLauncherLabel(cfg);
+    if (cfg) btn.querySelector(".dc-shortcut-label").textContent = getLauncherLabel(cfg);
     btn.classList.add("dc-is-visible");
     positionLauncher(btn);
   }

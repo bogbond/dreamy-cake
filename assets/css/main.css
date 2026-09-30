@@ -4467,3 +4467,83 @@ body.dc-bundle-open .dc-consent-manage {
     transition: none !important;
   }
 }
+/* Shared floating shortcuts: reserve ordering and cookie controls below. */
+.dc-shortcut-dock {
+  position: fixed;
+  left: calc(16px + env(safe-area-inset-left, 0px));
+  bottom: max(var(--dc-shortcut-bottom, 16px), calc(16px + env(safe-area-inset-bottom, 0px)));
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+}
+.dc-shortcut-dock .express-shortcut {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  z-index: auto;
+}
+.dc-shortcut-dock .express-shortcut__peek,
+.dc-shortcut-dock .dc-promo-launcher {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: 144px;
+  max-width: calc(100vw - 32px);
+  min-height: 44px;
+  padding: 5px 12px;
+  gap: 8px;
+  border: 1px solid rgba(79,62,51,.12);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(38,27,21,.08);
+  cursor: pointer;
+}
+.dc-shortcut-dock .express-shortcut__peek {
+  display: none;
+  background: rgba(255,255,255,.97);
+}
+.dc-shortcut-dock .express-shortcut.is-collapsed .express-shortcut__peek {
+  display: inline-flex;
+}
+.dc-shortcut-dock .express-shortcut.is-collapsed .express-shortcut__card {
+  display: none;
+}
+.dc-shortcut-dock .dc-promo-launcher {
+  display: none;
+  background: #403a35;
+  color: #fff;
+}
+.dc-shortcut-dock .dc-promo-launcher.dc-is-visible {
+  display: inline-flex;
+}
+.dc-shortcut-dock .express-shortcut__peek i,
+.dc-shortcut-icon {
+  flex: 0 0 16px;
+  width: 16px;
+  font-size: 15px;
+  text-align: center;
+  color: #b88718;
+}
+.dc-shortcut-icon { color: #f3ce76; }
+.dc-shortcut-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.dc-shortcut-dock .dc-promo-launcher:focus-visible {
+  outline: 2px solid #b88718;
+  outline-offset: 3px;
+}
+body.dc-promo-open .dc-shortcut-dock,
+body.dc-bundle-open .dc-shortcut-dock,
+html.dc-lightbox-open .dc-shortcut-dock {
+  visibility: hidden;
+}

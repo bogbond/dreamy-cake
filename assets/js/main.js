@@ -1104,3 +1104,54 @@ function dcFlashHighlight(el, durationMs = 2600) {
   }
 })();
 
+(function initFloatingShortcuts() {
+  // Shared bottom-left stack, above ordering and consent controls.
+  function init() {
+    var dock = document.createElement('div');
+    dock.className = 'dc-shortcut-dock';
+    document.body.appendChild(dock);
+    var pending = false;
+    var observed = new WeakSet();
+    var sizes = window.ResizeObserver ? new ResizeObserver(schedule) : null;
+    var states = new MutationObserver(schedule);
+    function watch(node) {
+      if (!node || observed.has(node)) return;
+      observed.add(node);
+      if (sizes) sizes.observe(node);
+      states.observe(node, { attributes: true, attributeFilter: ['class', 'hidden'] });
+    }
+    function layout() {
+      pending = false;
+      var express = document.querySelector('.express-shortcut');
+      var promo = document.querySelector('.dc-promo-launcher');
+      // Stable order: Express above the current seasonal collection.
+      if (express && express.parentNode !== dock) dock.insertBefore(express, dock.firstChild);
+      if (promo && promo.parentNode !== dock) dock.appendChild(promo);
+      watch(express);
+      watch(promo);
+      var bottom = 16;
+      document.querySelectorAll('.mobile-sticky-bar, .dc-consent-banner, .dc-consent-manage').forEach(function(node) {
+        watch(node);
+        var rect = node.getBoundingClientRect();
+        var css = getComputedStyle(node);
+        if (rect.width && rect.height && css.display !== 'none' && css.visibility !== 'hidden') {
+          bottom = Math.max(bottom, window.innerHeight - rect.top + 12);
+        }
+      });
+      dock.style.setProperty('--dc-shortcut-bottom', Math.ceil(bottom) + 'px');
+    }
+    function schedule() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(layout);
+    }
+    // Mount new controls before the browser paints them in their old positions.
+    new MutationObserver(layout).observe(document.body, { childList: true });
+    states.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    watch(dock);
+    window.addEventListener('resize', schedule, { passive: true });
+    layout();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
