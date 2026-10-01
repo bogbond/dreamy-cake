@@ -601,29 +601,46 @@ function inferFull(src) {
     lb.append(_btnClose, _btnPrev, _img, _btnNext);
     document.body.appendChild(lb);
   }
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.setAttribute('aria-label', 'Portfolio design');
   const lbImg = lb.querySelector('img');
+  const lbDetails = document.createElement('div');
+  lbDetails.className = 'dc-lightbox-details';
+  const lbCaption = document.createElement('p');
+  const lbOrder = document.createElement('a');
+  lbOrder.className = 'btn btn-primary';
+  lbOrder.textContent = 'Request a similar design';
+  lbDetails.append(lbCaption, lbOrder);
+  lb.appendChild(lbDetails);
   const btnClose = lb.querySelector('.close');
   const btnPrev  = lb.querySelector('.prev');
   const btnNext  = lb.querySelector('.next');
   let current = 0;
+  let lightboxTrigger = null;
 
   function openLightbox(i){
+    lightboxTrigger = document.activeElement;
     current = i; updateLightbox();
     lb.classList.add('open'); document.documentElement.classList.add('dc-lightbox-open');
     // Hide "back to top" floating button if present
     document.querySelectorAll('.scroll-top, .back-to-top, .fab-contact').forEach(el => { el.dataset._prevDisplay = el.style.display; el.style.display = 'none'; });
     document.documentElement.style.overflow = 'hidden';
+    btnClose.focus();
   }
   function closeLightbox(){
     lb.classList.remove('open'); document.documentElement.classList.remove('dc-lightbox-open');
     // Restore back-to-top
     document.querySelectorAll('.scroll-top, .back-to-top, .fab-contact').forEach(el => { el.style.display = el.dataset._prevDisplay || ''; delete el.dataset._prevDisplay; });
     document.documentElement.style.overflow = '';
+    if(lightboxTrigger) lightboxTrigger.focus({preventScroll:true});
   }
   function updateLightbox(){
     const item = IMAGES[current];
     lbImg.src = item.full || item.src;
     lbImg.alt = item.alt || '';
+    lbCaption.textContent = item.alt || 'Cake design inspiration';
+    lbOrder.href = '/Bespoke-Order/?inspiration=' + encodeURIComponent(item.full || item.src) + '#bespoke-form';
   }
   function prev(){ current = (current - 1 + IMAGES.length) % IMAGES.length; updateLightbox(); }
   function next(){ current = (current + 1) % IMAGES.length; updateLightbox(); }
@@ -650,7 +667,14 @@ function inferFull(src) {
   }, {passive:true});
 
   document.addEventListener('keydown', (e)=>{
-         if (!lb.classList.contains('open')) return; if (e.key==='Escape') closeLightbox(); if (e.key==='ArrowLeft') prev(); if (e.key==='ArrowRight') next(); });
+         if (!lb.classList.contains('open')) return;
+         if(e.key === 'Tab'){
+           const controls = Array.from(lb.querySelectorAll('button, a[href]'));
+           const first = controls[0], last = controls[controls.length - 1];
+           if(e.shiftKey && document.activeElement === first){e.preventDefault();last.focus();}
+           else if(!e.shiftKey && document.activeElement === last){e.preventDefault();first.focus();}
+         }
+         if (e.key==='Escape') closeLightbox(); if (e.key==='ArrowLeft') prev(); if (e.key==='ArrowRight') next(); });
 
   // Render items with INITIAL=8 and LOAD_STEP=8
   const INITIAL = 8, LOAD_STEP = 8;

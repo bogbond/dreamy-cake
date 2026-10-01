@@ -4547,3 +4547,14 @@ body.dc-bundle-open .dc-shortcut-dock,
 html.dc-lightbox-open .dc-shortcut-dock {
   visibility: hidden;
 }
+
+/* Keep the selected design and its enquiry link together in the portfolio viewer. */
+.dc-lightbox.open{ flex-direction:column; gap:14px; padding:64px 60px 76px; }
+.dc-lightbox img{ max-width:100%; max-height:calc(100dvh - 240px); object-fit:contain; }
+.dc-lightbox-details{ width:min(620px,100%); text-align:center; color:#fff; }
+.dc-lightbox-details p{ margin:0 0 12px; font-size:.95rem; line-height:1.4; }
+.dc-lightbox-details .btn{ white-space:normal; }
+@media(max-width:575.98px){
+  .dc-lightbox.open{ padding:64px 16px 76px; }
+  .dc-lightbox img{ max-height:calc(100dvh - 270px); }
+}

@@ -499,7 +499,7 @@
     const fromLauncher = !!opts.fromLauncher;
 
     // Avoid stacking with bootstrap modals/offcanvas
-    const anyBootstrapOpen = document.querySelector(".modal.show, .offcanvas.show");
+    const anyBootstrapOpen = document.querySelector(".modal.show, .offcanvas.show, .dc-lightbox.open");
     if (anyBootstrapOpen) return;
 
     markShown(cfg);

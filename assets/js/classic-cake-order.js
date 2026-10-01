@@ -4,7 +4,7 @@
 
   var SIZE_INFO = {
     "6 inch": { base: 60, servings: "8–12 servings" },
-    "8 inch": { base: 80, servings: "14–20 servings" }
+    "8 inch": { base: 80, servings: "24 servings" }
   };
 
   var STYLE_INFO = {

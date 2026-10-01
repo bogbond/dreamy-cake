@@ -178,12 +178,31 @@
     return els.flavour.value;
   }
 
+  function updateCakeSizes(){
+    if(!els.cakeSize) return;
+    var cat = selectedRadio('cake_category');
+    var category = cat ? cat.value : '';
+    els.cakeSize.disabled = !hasCake() || !category;
+    Array.prototype.forEach.call(els.cakeSize.options, function(opt){
+      if(!opt.value) return;
+      var allowed = (opt.getAttribute('data-categories') || '').split('|').indexOf(category) !== -1;
+      opt.disabled = !allowed;
+      opt.hidden = !allowed;
+      if(opt.selected && !allowed) els.cakeSize.value = '';
+      var price = parseFloat(opt.getAttribute('data-price') || '0');
+      if(category === 'Themed Cake') price = Math.max(price, 65);
+      if(category === 'Wedding / Tiered Cake') price = Math.max(price, 150);
+      opt.textContent = opt.getAttribute('data-label') + ' - from ' + money(price);
+    });
+  }
+
   function cakeEstimate(){
     if(!hasCake()) return { price:0, label:'Not selected', flavourAdd:0 };
     var sizePrice = optionPrice(els.cakeSize);
     var label = optionLabel(els.cakeSize);
     var cat = selectedRadio('cake_category');
-    var catLabel = cat ? cat.value : 'Cake';
+    if(!cat) return { price:0, label:'Choose a cake category', flavourAdd:0 };
+    var catLabel = cat.value;
     var catBase = cat ? parseFloat(cat.getAttribute('data-base-price') || '55') : 55;
     if(!Number.isFinite(catBase) || catBase <= 0) catBase = 55;
 
@@ -472,6 +491,7 @@
   function updateAll(changedInput){
     updateEventDateMin();
     updatePanels(changedInput);
+    updateCakeSizes();
     validateEventDate();
     updateSummary();
   }
@@ -548,6 +568,13 @@
       }
     }
   }, true);
+
+  // Carry the selected portfolio photo into the request without sending a form.
+  var referenceLinks = document.getElementById('boReferenceLinks');
+  var photo = new URLSearchParams(window.location.search).get('inspiration');
+  if(photo && /^assets\/img\/cakes\/[a-zA-Z0-9_.-]+\.webp$/.test(photo) && referenceLinks && !referenceLinks.value){
+    referenceLinks.value = new URL('/' + photo, window.location.origin).href;
+  }
 
   updateEventDateMin();
   validateEventDate();

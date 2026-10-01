@@ -125,7 +125,7 @@
 
   function blockingUiExists() {
     return !!document.querySelector(
-      ".dc-consent-banner, .modal.show, .offcanvas.show, .dc-promo-overlay, #" + OVERLAY_ID
+      ".dc-consent-banner, .modal.show, .offcanvas.show, .dc-lightbox.open, .dc-promo-overlay, #" + OVERLAY_ID
     );
   }
 
