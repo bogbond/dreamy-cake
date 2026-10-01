@@ -337,6 +337,10 @@
   }
 
   function ensureLauncher(cfg) {
+    // Collection pages already contain the seasonal catalogue. Keep the timed
+    // popup independent: it can still open and close without a launcher.
+    const path = (window.location.pathname || "").toLowerCase().replace(/index\.html$/, "").replace(/\/+$/, "");
+    if (/^\/products\/[^/]+-collection$/.test(path)) return null;
     let btn = document.getElementById(LAUNCHER_ID);
     if (btn) return btn;
     btn = el("button", { id: LAUNCHER_ID, class: "dc-promo-launcher", type: "button" });
@@ -695,7 +699,7 @@
       setTimeout(reposition, 1000);
     }
 
-    launcher.addEventListener("click", function () {
+    if (launcher) launcher.addEventListener("click", function () {
       openPopup(cfg, { launcher: launcher, fromLauncher: true });
     });
 

@@ -356,8 +356,8 @@
   var STORAGE_KEY = 'dc_express_shortcut_state';
 
   function getProductSlug(){
-    var path = (window.location.pathname || '').replace(/index\.html$/, '').replace(/\/+$/, '');
-    var match = path.match(/^\/Products\/([^/]+)$/);
+    var path = (window.location.pathname || '').toLowerCase().replace(/index\.html$/, '').replace(/\/+$/, '');
+    var match = path.match(/^\/products\/([^/]+)$/);
     return match ? match[1] : '';
   }
 
@@ -365,6 +365,7 @@
     var slug = getProductSlug();
     if(!slug) return false;
     if(slug.indexOf('express-') === 0) return false;
+    if(['classic-cake', 'freshly-made-cookies', 'postage-cookie'].indexOf(slug) !== -1) return false;
     if(/-collection$/.test(slug)) return false;
     return true;
   }

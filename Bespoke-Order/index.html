@@ -143,6 +143,36 @@
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://dreamycake.co.uk/Bespoke-Order/#webpage","url":"https://dreamycake.co.uk/Bespoke-Order/","name":"Bespoke Cake and Cupcake Order Request","description":"Guided bespoke order request form for custom cakes, cupcakes and matching dessert sets by Dreamy Cake Bakery in Huntingdon and Cambridgeshire.","isPartOf":{"@id":"https://dreamycake.co.uk/#website"},"inLanguage":"en-GB","about":{"@id":"https://dreamycake.co.uk/#localbusiness","address":{"@type":"PostalAddress","streetAddress":"14 Elizabethan Way, Brampton","addressLocality":"Huntingdon","addressRegion":"Cambridgeshire","postalCode":"PE28 4SU","addressCountry":"GB"},"geo":{"@type":"GeoCoordinates","latitude":52.3242487,"longitude":-0.2406139},"hasMap":"https://maps.app.goo.gl/psW7oL2LAus7vUWy5"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://dreamycake.co.uk/assets/img/og/custom-cakes-cambridgeshire-1200x630.jpg","width":1200,"height":630},"breadcrumb":{"@id":"https://dreamycake.co.uk/Bespoke-Order/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://dreamycake.co.uk/Bespoke-Order/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dreamycake.co.uk/"},{"@type":"ListItem","position":2,"name":"Bespoke Order","item":"https://dreamycake.co.uk/Bespoke-Order/"}]},{"@type":"Service","@id":"https://dreamycake.co.uk/Bespoke-Order/#service","name":"Bespoke cake and cupcake order request","serviceType":"Custom cake and cupcake enquiry","description":"Custom cakes, mini bento cakes, themed cakes, wedding-style cakes and cupcake boxes made to order with collection or local delivery by arrangement.","provider":{"@id":"https://dreamycake.co.uk/#localbusiness","address":{"@type":"PostalAddress","streetAddress":"14 Elizabethan Way, Brampton","addressLocality":"Huntingdon","addressRegion":"Cambridgeshire","postalCode":"PE28 4SU","addressCountry":"GB"},"geo":{"@type":"GeoCoordinates","latitude":52.3242487,"longitude":-0.2406139},"hasMap":"https://maps.app.goo.gl/psW7oL2LAus7vUWy5"},"areaServed":["Huntingdon","Brampton","Cambridgeshire","Cambridge","Peterborough","St Ives","St Neots","Ely"],"availableChannel":{"@type":"ServiceChannel","serviceUrl":"https://dreamycake.co.uk/Bespoke-Order/","availableLanguage":"en-GB"},"offers":{"@type":"AggregateOffer","priceCurrency":"GBP","lowPrice":"24","highPrice":"300","offerCount":"5","availability":"https://schema.org/PreOrder","offers":[{"@type":"Offer","name":"Mini / Bento Cake","priceCurrency":"GBP","price":"35","url":"https://dreamycake.co.uk/Products/mini-bento-cake/","availability":"https://schema.org/PreOrder"},{"@type":"Offer","name":"Celebration Cake","priceCurrency":"GBP","price":"55","url":"https://dreamycake.co.uk/Products/celebration-cake/","availability":"https://schema.org/PreOrder"},{"@type":"Offer","name":"Themed Cake","priceCurrency":"GBP","price":"65","url":"https://dreamycake.co.uk/Products/themed-cake/","availability":"https://schema.org/PreOrder"},{"@type":"Offer","name":"Wedding / Tiered Cake","priceCurrency":"GBP","price":"150","url":"https://dreamycake.co.uk/Products/wedding-cake/","availability":"https://schema.org/PreOrder"},{"@type":"Offer","name":"Cupcakes","priceCurrency":"GBP","price":"24","url":"https://dreamycake.co.uk/Products/cupcakes/","availability":"https://schema.org/PreOrder"}]}}]}</script>
 <link href="/assets/css/button-palette-v07.css" rel="stylesheet"/>
+<style>
+  .dc-consent-banner{
+    position:fixed; left:0; right:0; bottom:0;
+    z-index:2147483647;
+    background: rgba(255,255,255,0.98);
+    border-top: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 -8px 24px rgba(0,0,0,.08);
+    padding: 16px; display:flex; gap:16px; align-items: flex-start;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  .dc-consent-banner__text{ flex:1; font-size:14px; line-height:1.45; color:#222; }
+  .dc-consent-banner__btns{ display:flex; gap:8px; flex-wrap:wrap; }
+  .dc-btn{ border:1px solid #222; padding:8px 12px; border-radius:999px; background:#fff; cursor:pointer; font-size:14px; }
+  .dc-btn--primary{ background:#222; color:#fff; }
+  .dc-consent-manage{
+    left: 12px !important;
+    position:fixed;
+    right:auto !important; bottom: 6px;
+    z-index:2147483647;
+    border:1px solid #222; background:#fff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; opacity:.85;
+    line-height:1; white-space:nowrap;
+    transition: bottom .2s ease, right .2s ease, left .2s ease, opacity .2s;
+  }
+  /* When we need to lift above another fixed button (e.g., back-to-top) */
+  /* Put it bottom-left on very small screens to avoid crowding */
+  @media (max-width: 480px) {
+    .dc-consent-manage{ left:16px; right:auto; }
+  }
+  .dc-consent-manage:hover{ opacity:1; }
+</style>
 </head>
 <body class="index-page bespoke-order-page">
 <header class="header d-flex align-items-center fixed-top" id="header">
@@ -716,36 +746,7 @@
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/navfix.js"></script>
 <!-- DC:CONSENT_BANNER_START -->
-<style>
-  .dc-consent-banner{
-    position:fixed; left:0; right:0; bottom:0;
-    z-index:2147483647;
-    background: rgba(255,255,255,0.98);
-    border-top: 1px solid rgba(0,0,0,.1);
-    box-shadow: 0 -8px 24px rgba(0,0,0,.08);
-    padding: 16px; display:flex; gap:16px; align-items: flex-start;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  }
-  .dc-consent-banner__text{ flex:1; font-size:14px; line-height:1.45; color:#222; }
-  .dc-consent-banner__btns{ display:flex; gap:8px; flex-wrap:wrap; }
-  .dc-btn{ border:1px solid #222; padding:8px 12px; border-radius:999px; background:#fff; cursor:pointer; font-size:14px; }
-  .dc-btn--primary{ background:#222; color:#fff; }
-  .dc-consent-manage{
-    left: 12px !important;
-    position:fixed;
-    right:auto !important; bottom: 6px;
-    z-index:2147483647;
-    border:1px solid #222; background:#fff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; opacity:.85;
-    line-height:1; white-space:nowrap;
-    transition: bottom .2s ease, right .2s ease, left .2s ease, opacity .2s;
-  }
-  /* When we need to lift above another fixed button (e.g., back-to-top) */
-  /* Put it bottom-left on very small screens to avoid crowding */
-  @media (max-width: 480px) {
-    .dc-consent-manage{ left:16px; right:auto; }
-  }
-  .dc-consent-manage:hover{ opacity:1; }
-</style>
+
 <script>
 (function(){
   try {

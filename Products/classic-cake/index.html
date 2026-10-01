@@ -199,6 +199,36 @@
 </style>
 <link href="https://dreamycake.co.uk/Products/classic-cake/" rel="canonical"/>
 </meta></meta></meta></meta><link href="/assets/css/button-palette-v07.css" rel="stylesheet"/>
+<style>
+  .dc-consent-banner{
+    position:fixed; left:0; right:0; bottom:0;
+    z-index:2147483647;
+    background: rgba(255,255,255,0.98);
+    border-top: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 -8px 24px rgba(0,0,0,.08);
+    padding: 16px; display:flex; gap:16px; align-items: flex-start;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  .dc-consent-banner__text{ flex:1; font-size:14px; line-height:1.45; color:#222; }
+  .dc-consent-banner__btns{ display:flex; gap:8px; flex-wrap:wrap; }
+  .dc-btn{ border:1px solid #222; padding:8px 12px; border-radius:999px; background:#fff; cursor:pointer; font-size:14px; }
+  .dc-btn--primary{ background:#222; color:#fff; }
+  .dc-consent-manage{
+    left: 12px !important;
+    position:fixed;
+    right:auto !important; bottom: 6px;
+    z-index:2147483647;
+    border:1px solid #222; background:#fff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; opacity:.85;
+    line-height:1; white-space:nowrap;
+    transition: bottom .2s ease, right .2s ease, left .2s ease, opacity .2s;
+  }
+  /* When we need to lift above another fixed button (e.g., back-to-top) */
+  /* Put it bottom-left on very small screens to avoid crowding */
+  @media (max-width: 480px) {
+    .dc-consent-manage{ left:16px; right:auto; }
+  }
+  .dc-consent-manage:hover{ opacity:1; }
+</style>
 </head>
 <body class="index-page">
 <header class="header d-flex align-items-center fixed-top" id="header">
@@ -352,15 +382,15 @@
 <div class="flex-fill">
 <input autocomplete="off" checked="" class="btn-check" id="products-classic-cake-index-f1-size-6" name="size_ui" required="" type="radio" value="6 inch"/>
 <label class="btn btn-outline-dark w-100 py-2 text-center" for="products-classic-cake-index-f1-size-6">
-<div class="fw-semibold">6 inch</div>
-<div class="small text-muted">£60 · 8–12 servings</div>
+<span class="d-block fw-semibold">6 inch</span>
+<span class="d-block small text-muted">£60 · 8–12 servings</span>
 </label>
 </div>
 <div class="flex-fill">
 <input autocomplete="off" class="btn-check" id="products-classic-cake-index-f1-size-8" name="size_ui" required="" type="radio" value="8 inch"/>
 <label class="btn btn-outline-dark w-100 py-2 text-center" for="products-classic-cake-index-f1-size-8">
-<div class="fw-semibold">8 inch</div>
-<div class="small text-muted">£80 · 14–20 servings</div>
+<span class="d-block fw-semibold">8 inch</span>
+<span class="d-block small text-muted">£80 · 14–20 servings</span>
 </label>
 </div>
 </div>
@@ -372,21 +402,21 @@
 <div>
 <input autocomplete="off" checked="" class="btn-check" id="products-classic-cake-index-f1-style-choco" name="style_ui" required="" type="radio" value="Chocolate &amp; Biscoff Drip Cake"/>
 <label class="btn btn-outline-dark w-100 text-start p-2 ps-3 ps-sm-4 d-flex gap-2 align-items-center" for="products-classic-cake-index-f1-style-choco">
-<img alt="Classic Cake – Chocolate &amp; Biscoff Drip Cake" class="rounded-2 border flex-shrink-0 ms-2" decoding="async" height="1066" loading="lazy" sizes="(max-width: 991px) 100vw, 50vw" src="../../assets/img/items/express-cake-02-480w.webp" srcset="../../assets/img/items/express-cake-02-480w.webp 480w, ../../assets/img/items/express-cake-02.webp 800w" style="object-fit: cover;" width="800"/>
-<div>
-<div class="fw-semibold">Chocolate &amp; Biscoff Drip Cake</div>
-<div class="small text-muted">Flavour inside: Choco Biscoff</div>
-</div>
+<img alt="Classic Cake – Chocolate &amp; Biscoff Drip Cake" class="rounded-2 border flex-shrink-0 ms-2" decoding="async" height="1066" loading="lazy" sizes="(max-width: 991px) 100vw, 50vw" src="../../assets/img/items/express-cake-02-480w.webp" srcset="../../assets/img/items/express-cake-02-480w.webp 480w, ../../assets/img/items/express-cake-02.webp 800w" style="object-fit: cover; width: 64px; height: 64px;" width="800"/>
+<span class="d-block">
+<span class="d-block fw-semibold">Chocolate &amp; Biscoff Drip Cake</span>
+<span class="d-block small text-muted">Flavour inside: Choco Biscoff</span>
+</span>
 </label>
 </div>
 <div>
 <input autocomplete="off" class="btn-check" id="products-classic-cake-index-f1-style-teddy" name="style_ui" required="" type="radio" value="White &amp; Gold Teddy Cake"/>
 <label class="btn btn-outline-dark w-100 text-start p-2 ps-3 ps-sm-4 d-flex gap-2 align-items-center" for="products-classic-cake-index-f1-style-teddy">
-<img alt="Classic Cake – White &amp; Gold Teddy Cake" class="rounded-2 border flex-shrink-0 ms-2" decoding="async" height="1066" loading="lazy" sizes="(max-width: 991px) 100vw, 50vw" src="../../assets/img/items/express-cake-03-480w.webp" srcset="../../assets/img/items/express-cake-03-480w.webp 480w, ../../assets/img/items/express-cake-03.webp 800w" style="object-fit: cover;" width="800"/>
-<div>
-<div class="fw-semibold">White &amp; Gold Teddy Cake</div>
-<div class="small text-muted">Flavour inside: Vanilla Raspberry</div>
-</div>
+<img alt="Classic Cake – White &amp; Gold Teddy Cake" class="rounded-2 border flex-shrink-0 ms-2" decoding="async" height="1066" loading="lazy" sizes="(max-width: 991px) 100vw, 50vw" src="../../assets/img/items/express-cake-03-480w.webp" srcset="../../assets/img/items/express-cake-03-480w.webp 480w, ../../assets/img/items/express-cake-03.webp 800w" style="object-fit: cover; width: 64px; height: 64px;" width="800"/>
+<span class="d-block">
+<span class="d-block fw-semibold">White &amp; Gold Teddy Cake</span>
+<span class="d-block small text-muted">Flavour inside: Vanilla Raspberry</span>
+</span>
 </label>
 </div>
 </div>
@@ -588,36 +618,7 @@
 <script src="../../assets/js/classic-cake-order.js?v=20260930.1"></script>
 <script src="/assets/js/navfix.js"></script>
 <!-- DC:CONSENT_BANNER_START -->
-<style>
-  .dc-consent-banner{
-    position:fixed; left:0; right:0; bottom:0;
-    z-index:2147483647;
-    background: rgba(255,255,255,0.98);
-    border-top: 1px solid rgba(0,0,0,.1);
-    box-shadow: 0 -8px 24px rgba(0,0,0,.08);
-    padding: 16px; display:flex; gap:16px; align-items: flex-start;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  }
-  .dc-consent-banner__text{ flex:1; font-size:14px; line-height:1.45; color:#222; }
-  .dc-consent-banner__btns{ display:flex; gap:8px; flex-wrap:wrap; }
-  .dc-btn{ border:1px solid #222; padding:8px 12px; border-radius:999px; background:#fff; cursor:pointer; font-size:14px; }
-  .dc-btn--primary{ background:#222; color:#fff; }
-  .dc-consent-manage{
-    left: 12px !important;
-    position:fixed;
-    right:auto !important; bottom: 6px;
-    z-index:2147483647;
-    border:1px solid #222; background:#fff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; opacity:.85;
-    line-height:1; white-space:nowrap;
-    transition: bottom .2s ease, right .2s ease, left .2s ease, opacity .2s;
-  }
-  /* When we need to lift above another fixed button (e.g., back-to-top) */
-  /* Put it bottom-left on very small screens to avoid crowding */
-  @media (max-width: 480px) {
-    .dc-consent-manage{ left:16px; right:auto; }
-  }
-  .dc-consent-manage:hover{ opacity:1; }
-</style>
+
 <script>
 (function(){
   try {

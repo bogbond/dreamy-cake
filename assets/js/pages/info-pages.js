@@ -89,11 +89,19 @@ fee.append(price===0 ? '≈ £0 ' : ('≈ ' + formatGBP(price) + ' '));
   updateScrolled();
 
   var burger = document.querySelector('.mobile-nav-toggle');
+  function syncNavAccessibility(){
+    if (!burger) return;
+    var expanded = document.body.classList.contains('mobile-nav-active');
+    burger.setAttribute('aria-expanded', String(expanded));
+    burger.setAttribute('aria-label', expanded ? 'Close navigation menu' : 'Open navigation menu');
+  }
+  syncNavAccessibility();
   if (burger){
     burger.addEventListener('click', function(){
       document.body.classList.toggle('mobile-nav-active');
       this.classList.toggle('bi-list');
       this.classList.toggle('bi-x');
+      syncNavAccessibility();
     });
   }
 })();

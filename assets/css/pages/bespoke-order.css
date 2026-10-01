@@ -15,7 +15,7 @@
 .bespoke-order-page .header{background:rgba(80,54,58,.34);backdrop-filter:blur(12px)}
 .bespoke-order-page.scrolled .header{background:#bebbb1}
 .bespoke-main{overflow:hidden;background:linear-gradient(180deg,#fff 0%,#fffaf5 52%,#fff 100%)}
-.bespoke-hero{position:relative;min-height:648px;display:flex;align-items:center;padding:124px 0 56px;color:#fff;background:linear-gradient(135deg,rgba(65,28,38,.78),rgba(155,65,100,.62)),url('/assets/img/items/celebration-cake-09-white-pink-petal-vintage-cake.webp') center/cover no-repeat}
+.bespoke-hero{position:relative;min-height:648px;display:flex;align-items:center;padding:124px 0 56px;color:#fff;background:linear-gradient(135deg,rgba(65,28,38,.78),rgba(155,65,100,.62)),url('/assets/img/items/celebration-cake-pink-giraffe-vintage-piping.webp') center/cover no-repeat}
 .bespoke-hero__wash{position:absolute;inset:0;background:radial-gradient(circle at 20% 18%,rgba(255,255,255,.28),transparent 30%),linear-gradient(180deg,rgba(24,14,18,.25),rgba(24,14,18,.54));pointer-events:none}
 .bespoke-hero h1{color:#fff;font-size:clamp(2.35rem,5vw,4.8rem);line-height:.98;letter-spacing:-.055em;margin:0 0 1rem;max-width:760px}
 .bespoke-kicker{margin:0 0 .75rem;text-transform:uppercase;letter-spacing:.18em;font-weight:800;font-size:.78rem;color:#ffd8e5}

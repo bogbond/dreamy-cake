@@ -56,10 +56,19 @@
    */
   const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
 
+  function syncMobileNavAccessibility() {
+    if (!mobileNavToggleBtn) return;
+    const expanded = document.body.classList.contains("mobile-nav-active");
+    mobileNavToggleBtn.setAttribute("aria-expanded", String(expanded));
+    mobileNavToggleBtn.setAttribute("aria-label", expanded ? "Close navigation menu" : "Open navigation menu");
+  }
+  syncMobileNavAccessibility();
+
   function mobileNavToogle() {
     document.querySelector('body').classList.toggle('mobile-nav-active');
     mobileNavToggleBtn.classList.toggle('bi-list');
     mobileNavToggleBtn.classList.toggle('bi-x');
+    syncMobileNavAccessibility();
     toggleHomeHeroHeader();
   }
   if (mobileNavToggleBtn) {
@@ -150,7 +159,8 @@
    * Animation on scroll function and init
    */
   function aosInit() {
-    AOS.init({
+    if (!window.AOS || typeof window.AOS.init !== "function") return;
+    window.AOS.init({
       duration: 600,
       easing: 'ease-in-out',
       once: true,
@@ -854,7 +864,7 @@ function dcFlashHighlight(el, durationMs = 2600) {
     if (desktop && body.classList.contains('mobile-nav-active')) {
       body.classList.remove('mobile-nav-active');
       const t = document.querySelector('.mobile-nav-toggle');
-      if (t) { t.classList.add('bi-list'); t.classList.remove('bi-x'); }
+      if (t) { t.classList.add('bi-list'); t.classList.remove('bi-x'); t.setAttribute('aria-expanded', 'false'); t.setAttribute('aria-label', 'Open navigation menu'); }
     }
   };
   window.addEventListener('load', resetMobileNav);

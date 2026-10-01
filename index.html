@@ -1223,6 +1223,36 @@
 }
 </style>
 <link href="https://dreamycake.co.uk/" rel="canonical"/><meta content="1200" property="og:image:width"><meta content="630" property="og:image:height"><meta content="Featured custom cakes by Dreamy Cake Bakery in Cambridgeshire" name="twitter:image:alt"/><meta content="index,follow,max-image-preview:large" name="robots"/></meta></meta></link></link></meta></meta></meta><link href="/assets/css/button-palette-v07.css" rel="stylesheet"/>
+<style>
+  .dc-consent-banner{
+    position:fixed; left:0; right:0; bottom:0;
+    z-index:2147483647;
+    background: rgba(255,255,255,0.98);
+    border-top: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 -8px 24px rgba(0,0,0,.08);
+    padding: 16px; display:flex; gap:16px; align-items: flex-start;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  .dc-consent-banner__text{ flex:1; font-size:14px; line-height:1.45; color:#222; }
+  .dc-consent-banner__btns{ display:flex; gap:8px; flex-wrap:wrap; }
+  .dc-btn{ border:1px solid #222; padding:8px 12px; border-radius:999px; background:#fff; cursor:pointer; font-size:14px; }
+  .dc-btn--primary{ background:#222; color:#fff; }
+  .dc-consent-manage{
+    left: 12px !important;
+    position:fixed;
+    right:auto !important; bottom: 6px;
+    z-index:2147483647;
+    border:1px solid #222; background:#fff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; opacity:.85;
+    line-height:1; white-space:nowrap;
+    transition: bottom .2s ease, right .2s ease, left .2s ease, opacity .2s;
+  }
+  /* When we need to lift above another fixed button (e.g., back-to-top) */
+  /* Put it bottom-left on very small screens to avoid crowding */
+  @media (max-width: 480px) {
+    .dc-consent-manage{ left:16px; right:auto; }
+  }
+  .dc-consent-manage:hover{ opacity:1; }
+</style>
 </head>
 <body class="index-page">
 <!-- A11y: skip to main content (v1.0) -->
@@ -1949,36 +1979,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my date available?","acceptedAnswer":{"@type":"Answer","text":"We typically need 7–14 days. Rush orders may be possible by request. Tell us your date and delivery postcode — we’ll confirm availability and hold your slot with a 50% deposit. Usual reply time: 2–3 hours."}},{"@type":"Question","name":"How much will my cake cost?","acceptedAnswer":{"@type":"Answer","text":"Prices vary by servings, design detail and delivery. Check our Cake Menu and Servings guides, send your inspo, and we’ll suggest the right size with a no-obligation quote in 2–3 hours."}},{"@type":"Question","name":"What size do I need?","acceptedAnswer":{"@type":"Answer","text":"Use the Servings Guide to match guest count to cake size. If you’re between sizes, we’ll recommend the most cost-efficient option and adapt the design to suit."}},{"@type":"Question","name":"Do you deliver and set up?","acceptedAnswer":{"@type":"Answer","text":"Yes — we deliver within approximately 50 km of Cambridgeshire; further afield on request. Fees are postcode-based. For tiered or tall designs we can handle venue setup for safe placement."}},{"@type":"Question","name":"Can you do vegan / gluten-friendly / nut-free?","acceptedAnswer":{"@type":"Answer","text":"Options available on request. However, all cakes are made in a kitchen that handles gluten, dairy, eggs, nuts and soy, so they may not be suitable for severe allergies. See our Allergens page for details."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Allergens & dietary information (home section)","about":{"@type":"Thing","name":"Cake allergens and dietary options"},"audience":{"@type":"PeopleAudience","audienceType":"People with food allergies or intolerances"},"hasPart":{"@type":"ItemList","name":"Allergens handled","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"DefinedTerm","name":"Gluten"}},{"@type":"ListItem","position":2,"item":{"@type":"DefinedTerm","name":"Dairy"}},{"@type":"ListItem","position":3,"item":{"@type":"DefinedTerm","name":"Eggs"}},{"@type":"ListItem","position":4,"item":{"@type":"DefinedTerm","name":"Nuts"}},{"@type":"ListItem","position":5,"item":{"@type":"DefinedTerm","name":"Soy"}},{"@type":"ListItem","position":6,"item":{"@type":"DefinedTerm","name":"Sesame"}}]},"isPartOf":{"@type":"WebSite","name":"Dreamy Cake Bakery"},"mentions":[{"@type":"RestrictedDiet","name":"VeganDiet"},{"@type":"RestrictedDiet","name":"VegetarianDiet"}],"hasPartUrl":"https://dreamycake.co.uk/Allergens/"}</script>
 <!-- DC:CONSENT_BANNER_START -->
-<style>
-  .dc-consent-banner{
-    position:fixed; left:0; right:0; bottom:0;
-    z-index:2147483647;
-    background: rgba(255,255,255,0.98);
-    border-top: 1px solid rgba(0,0,0,.1);
-    box-shadow: 0 -8px 24px rgba(0,0,0,.08);
-    padding: 16px; display:flex; gap:16px; align-items: flex-start;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  }
-  .dc-consent-banner__text{ flex:1; font-size:14px; line-height:1.45; color:#222; }
-  .dc-consent-banner__btns{ display:flex; gap:8px; flex-wrap:wrap; }
-  .dc-btn{ border:1px solid #222; padding:8px 12px; border-radius:999px; background:#fff; cursor:pointer; font-size:14px; }
-  .dc-btn--primary{ background:#222; color:#fff; }
-  .dc-consent-manage{
-    left: 12px !important;
-    position:fixed;
-    right:auto !important; bottom: 6px;
-    z-index:2147483647;
-    border:1px solid #222; background:#fff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; opacity:.85;
-    line-height:1; white-space:nowrap;
-    transition: bottom .2s ease, right .2s ease, left .2s ease, opacity .2s;
-  }
-  /* When we need to lift above another fixed button (e.g., back-to-top) */
-  /* Put it bottom-left on very small screens to avoid crowding */
-  @media (max-width: 480px) {
-    .dc-consent-manage{ left:16px; right:auto; }
-  }
-  .dc-consent-manage:hover{ opacity:1; }
-</style>
+
 <script>
 (function(){
   try {
