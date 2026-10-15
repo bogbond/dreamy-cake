@@ -1,0 +1,64 @@
+.about-page #reviews .section-title{padding-bottom:30px}
+.about-page #reviews .review-slider{overflow:hidden;padding:3px 2px 10px}
+.about-page #reviews .swiper-wrapper{align-items:stretch}
+.about-page #reviews .swiper-slide{height:auto;display:flex}
+.about-page #reviews .review-entry{width:100%;height:426px;padding:24px;border:1px solid #e8e0d5;border-radius:18px;background:#fffdfb;box-shadow:0 5px 20px #503b2408;display:flex;flex-direction:column;gap:12px;min-width:0}
+.about-page #reviews .review-card-top{height:25px;display:flex;align-items:center;justify-content:space-between}
+.about-page #reviews .review-stars{font-size:.9rem;letter-spacing:3px;color:#ac8037}
+.about-page #reviews .review-quote{font-family:Georgia,serif;font-size:44px;line-height:1;color:#b18b50;margin:0;height:28px}
+.about-page #reviews .review-category{font-size:.7rem;color:#8b7968}
+.about-page #reviews .review-copy{flex:1;min-height:0;overflow:hidden}
+.about-page #reviews blockquote{margin:0;line-height:1.75;font-size:.94rem;color:#494139;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
+.about-page #reviews blockquote p{font-size:inherit;line-height:inherit;margin:0 0 7px}
+.about-page #reviews .review-read-more{border:0;background:none;padding:5px 0;color:#8b693c;font:inherit;font-size:.78rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.about-page #reviews .review-read-more[hidden]{display:none}
+.about-page #reviews .review-gallery{display:flex;gap:8px;min-height:76px;align-items:flex-end}
+.about-page #reviews .review-gallery:empty{display:none}
+.about-page #reviews .review-media{width:76px;height:76px;padding:0;border:1px solid #e7ded2;border-radius:9px;overflow:hidden;background:#f8f4ed;cursor:zoom-in;flex-shrink:0}
+.about-page #reviews .review-media img{display:block;width:100%;height:100%;object-fit:cover;margin:0}
+.about-page #reviews .review-entry-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #eee6dc;padding-top:12px;min-height:39px}
+.about-page #reviews .review-entry-footer strong{font-size:.8rem;font-weight:600;white-space:nowrap}
+.about-page .review-evidence{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.about-page #reviews .review-source,.about-page .review-full-text .review-source{border:0;background:none;padding:3px 0;color:#897660;font:inherit;font-size:.7rem;line-height:1.5;text-decoration:none;white-space:nowrap;cursor:pointer}
+.about-page #reviews .review-source:hover{text-decoration:underline;text-underline-offset:3px}
+.about-page #reviews .review-slider-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px}
+.about-page #reviews .review-slider-btn{width:36px;height:36px;flex:0 0 36px;border:1px solid #e4d8c7;background:#fffdf9;color:#947341;border-radius:50%;font-size:20px;display:grid;place-items:center;padding:0;box-shadow:none}
+.about-page #reviews .review-slider-pagination{width:auto!important;max-width:560px;display:flex;justify-content:center;flex-wrap:wrap;gap:0;line-height:1}
+.about-page #reviews .swiper-pagination-bullet{width:20px;height:22px;margin:0!important;border:0;background:transparent;opacity:1;position:relative;padding:0}
+.about-page #reviews .swiper-pagination-bullet:before{content:'';position:absolute;left:7px;top:8px;width:6px;height:6px;border-radius:50%;background:#d9cdbb;transition:background .2s,transform .2s}
+.about-page #reviews .swiper-pagination-bullet-active:before{background:#a77c36;transform:scale(1.4)}
+.about-page #reviews .review-bottom-link{text-align:center;margin-top:14px}
+.about-page #reviews .review-bottom-link a{color:#8b7760;font-size:.78rem;text-decoration:none}
+.about-page #reviews .review-bottom-link a:hover{text-decoration:underline}
+.about-page .review-proof-image{display:block;margin:auto;width:auto;max-width:100%;max-height:none}
+.about-page .review-proof-modal .modal-body{padding:20px}
+.about-page .review-proof-caption:empty{display:none}
+.about-page .review-proof-modal .modal-body>a{font-size:.8rem;color:#8b7760}
+.about-page .review-full-text blockquote{margin:0;font-size:1rem;line-height:1.8;color:#494139}
+.about-page .review-full-text .review-evidence{margin-top:20px}
+.about-page.modal-open #dc-promo-launcher,.about-page.modal-open #scroll-top,.about-page.modal-open .dc-consent-manage,.about-page.dc-reading-reviews #dc-promo-launcher{display:none!important}
+.about-page #reviews button:focus-visible,.about-page #reviews a:focus-visible{outline:2px solid #b48b50;outline-offset:3px}
+@media(max-width:767px){.about-page #reviews .review-entry{height:414px;padding:22px}.about-page #reviews .review-slider-controls{gap:4px}.about-page #reviews .review-slider-pagination{max-width:260px}.about-page #reviews .swiper-pagination-bullet{width:18px;height:22px}.about-page #reviews .swiper-pagination-bullet:before{left:6px}.about-page #reviews .review-slider-btn{width:32px;height:32px;flex-basis:32px}.about-page #reviews .section-title{padding-bottom:24px}}
+@media(prefers-reduced-motion:reduce){.about-page #reviews .swiper-pagination-bullet:before,.about-page .modal.fade .modal-dialog{transition:none}}
+
+/* Two deliberate photo sizes, chosen from the rendered quote length. */
+.about-page #reviews .review-gallery{--review-photo-size:76px;min-height:0;flex-shrink:0;align-items:flex-start}
+.about-page #reviews .review-photos-large .review-gallery{--review-photo-size:136px}
+.about-page #reviews .review-media{width:var(--review-photo-size);height:auto;aspect-ratio:1;max-width:100%}
+.about-page #reviews .review-entry[data-photo-count="2"] .review-media{max-width:calc((100% - 8px)/2)}
+.about-page #reviews .review-entry[data-photo-count="3"] .review-media{max-width:calc((100% - 16px)/3)}
+.about-page #reviews .review-media img{object-fit:contain}
+.about-page #reviews .review-entry[data-photo-count="0"] .review-copy{display:flex;flex-direction:column;justify-content:center;padding-bottom:16px}
+.about-page #reviews .review-slider-shell{position:relative;padding:0 34px}
+.about-page #reviews .review-slider-controls{margin-top:18px;gap:0}
+.about-page #reviews .review-slider-btn{position:absolute;top:216px;transform:translateY(-50%);width:48px;height:48px;font-size:27px;z-index:2;box-shadow:0 3px 14px #66512d0c}
+.about-page #reviews .review-slider-prev{left:-22px}
+.about-page #reviews .review-slider-next{right:-22px}
+@media(max-width:767px){
+ .about-page #reviews .review-slider-shell{padding:0 20px}
+ .about-page #reviews .review-slider-btn{width:40px;height:40px;top:210px;font-size:24px}
+ .about-page #reviews .review-slider-prev{left:-3px}
+ .about-page #reviews .review-slider-next{right:-3px}
+ .about-page #reviews .review-entry{padding:22px 18px}
+ .about-page #reviews .review-photos-large .review-gallery{--review-photo-size:126px}
+}
