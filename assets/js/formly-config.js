@@ -14,6 +14,17 @@
 (function(){
   'use strict';
 
+  function analyticsSignal(form, stage, info){
+    try { document.dispatchEvent(new CustomEvent('dc:form-status', {detail:{form:form,stage:stage,provider:info||'unknown',error_type:stage==='error'?info:undefined}})); } catch(e){}
+  }
+  function analyticsErrorType(error){
+    var message=String(error&&error.message||'');
+    if(/security verification/i.test(message))return 'security_verification';
+    if(/could not confirm delivery/i.test(message))return 'unconfirmed_delivery';
+    if(/unavailable|could not be loaded|not ready|settings/i.test(message))return 'service_unavailable';
+    return 'request_failed';
+  }
+
   var FORMLY_ENDPOINT = 'https://formly.email/submit';
   var ACCESS_KEY = '8c20c8e2b11242a586b585700f820946';
   var FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/quotes@dreamycake.co.uk';
@@ -796,6 +807,7 @@
 
     e.preventDefault();
     if(!setSubmittingState(form, fileInput)) return;
+    analyticsSignal(form,'attempt');
     providerModePromise.then(function(providerMode){
       if(providerMode === PROVIDER_FORMSPARK){
         return loadFormsparkModule().then(function(service){
@@ -810,16 +822,20 @@
             })
           });
         }).then(function(){
+          analyticsSignal(form,'accepted','formspark');
           window.location.assign('/Thank-You/');
         });
       }
       if(providerMode == null) throw new Error('The form service is unavailable. Please contact us by email or WhatsApp.');
       if(providerMode === PROVIDER_FORMSUBMIT){
+        analyticsSignal(form,'handoff','formsubmit');
         submitFormSubmitRelay(form, fileInput);
         return;
       }
+      analyticsSignal(form,'handoff','formly');
       submitRelayForm(form, fileInput);
     }).catch(function(error){
+      analyticsSignal(form,'error',analyticsErrorType(error));
       console.error('Dreamy Cake form submission failed before sending.', error);
       clearSubmittingState(form);
       showProviderError(form, error.message || 'The form could not be prepared. Please contact us by email or WhatsApp.');

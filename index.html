@@ -3,108 +3,7 @@
 <html lang="en-GB">
 <head>
 <!-- DC:GA4_CONSENT_HEAD_START -->
-<!-- Google Analytics 4 + Consent Mode v2 (UK/EU) -->
-<script>
-  // GA4 Measurement ID (change here if needed)
-  window.GA_MEASUREMENT_ID = window.GA_MEASUREMENT_ID || 'G-CC2NRDSRQ9';
-
-  // Consent state: 'accept' | 'reject' | null
-  window.__dc_consent_choice = window.__dc_consent_choice || null;
-
-  // GA load guard
-  window.__ga_loaded = window.__ga_loaded || false;
-
-  // DataLayer + gtag wrapper:
-  // - Always allow Consent Mode commands
-  // - Block analytics/events until user accepts
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){
-    try {
-      if (arguments && arguments.length && arguments[0] === 'consent') {
-        window.dataLayer.push(arguments);
-        return;
-      }
-      if (window.__dc_consent_choice === 'accept') {
-        window.dataLayer.push(arguments);
-      }
-    } catch(e) {}
-  }
-  window.gtag = window.gtag || gtag;
-
-  // Helper: load GA script once (only call after consent 'accept')
-  window.dcLoadGAOnce = window.dcLoadGAOnce || function() {
-    var id = window.GA_MEASUREMENT_ID;
-    if (window.__ga_loaded) return;
-    if(!id || id === 'G-XXXXXXXXXX') {
-      console.warn('GA4 ID is placeholder. Set window.GA_MEASUREMENT_ID to your real GA4 ID.');
-      return;
-    }
-    // Avoid duplicate script tags
-    if (!document.querySelector('script[src^="https://www.googletagmanager.com/gtag/js?id="]')) {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
-      document.head.appendChild(s);
-    }
-    window.__ga_loaded = true;
-    gtag('js', new Date());
-    gtag('config', id, { anonymize_ip: true });
-  };
-
-  // Helper: attempt to clear GA cookies on "reject" (best-effort)
-  window.dcClearGACookies = window.dcClearGACookies || function() {
-    try {
-      var expires = 'Thu, 01 Jan 1970 00:00:00 GMT';
-      var domains = [location.hostname, '.' + location.hostname];
-      function del(name) {
-        // Host-only
-        document.cookie = name + '=; expires=' + expires + '; path=/';
-        // Explicit domains
-        for (var i=0; i<domains.length; i++) {
-          document.cookie = name + '=; expires=' + expires + '; path=/; domain=' + domains[i];
-        }
-      }
-      document.cookie.split(';').forEach(function(c){
-        var name = c.split('=')[0].trim();
-        if(name === '_ga' || name === '_gid' || name.indexOf('_ga_') === 0 || name.indexOf('_gat') === 0) {
-          del(name);
-        }
-      });
-    } catch(e) {}
-  };
-
-  // Read saved consent and set defaults (Consent Mode v2)
-  (function() {
-    try {
-      var saved = JSON.parse(localStorage.getItem('dc_consent') || '{}');
-      var choice = (saved && (saved.choice === 'accept' || saved.choice === 'reject')) ? saved.choice : null;
-      window.__dc_consent_choice = choice;
-
-      var base = {
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        ad_storage: 'denied',
-        analytics_storage: 'denied',
-        functionality_storage: 'granted',
-        security_storage: 'granted'
-      };
-
-      var consent = Object.assign({}, base, (choice === 'accept') ? {
-        analytics_storage: 'granted',
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted'
-      } : {});
-
-      gtag('consent', 'default', consent);
-
-      // Load GA only if user already accepted previously
-      if (choice === 'accept') {
-        window.dcLoadGAOnce();
-      }
-    } catch(e) { console.warn('Consent read failed', e); }
-  })();
-</script>
+<script src="/assets/js/analytics-core.js?v=1.0.0"></script>
 <!-- DC:GA4_CONSENT_HEAD_END -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -1652,7 +1551,7 @@
 <div>
 <h3 class="mb-1">WhatsApp</h3>
 <p class="mb-2 small text-muted">Fast reply during working hours</p>
-<a aria-label="Chat on WhatsApp" class="btn-whatsapp" href="https://wa.me/447510837225" onclick="if(window.gtag){gtag('event','whatsapp_click',{label:'contact_info'});}" rel="noopener" target="_blank">
+<a aria-label="Chat on WhatsApp" class="btn-whatsapp" href="https://wa.me/447510837225" rel="noopener" target="_blank">
 <svg aria-hidden="true" height="18" style="vertical-align:middle;" viewbox="0 0 32 32" width="18">
 <path d="M19.11 17.52c-.3-.15-1.76-.86-2.03-.96-.27-.1-.47-.15-.68.15-.2.3-.78.95-.95 1.14-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.68-1.64-.93-2.24-.25-.6-.5-.5-.68-.5-.17 0-.38-.02-.58-.02-.2 0-.53.08-.81.38-.27.3-1.07 1.05-1.07 2.56 0 1.5 1.1 2.95 1.26 3.15.15.2 2.16 3.3 5.22 4.64.73.32 1.3.51 1.75.65.73.23 1.39.2 1.91.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM16 3C8.82 3 3 8.82 3 16c0 2.3.62 4.46 1.7 6.3L3 29l6.87-1.77C11.6 28.38 13.73 29 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3z" fill="currentColor"></path>
 </svg>
@@ -1763,7 +1662,7 @@
 <div class="social-links d-flex" aria-label="Social and messaging links">
 <a aria-label="Follow Dreamy Cake Bakery on Facebook" class="facebook" href="https://www.facebook.com/DreamyCakeBakery" rel="noopener" target="_blank"><i class="bi bi-facebook"></i></a>
 <a aria-label="Follow Dreamy Cake Bakery on Instagram" class="instagram" href="https://www.instagram.com/dreamycake.bakery" rel="noopener" target="_blank"><i class="bi bi-instagram"></i></a>
-<a aria-label="Message Dreamy Cake Bakery on WhatsApp" class="whatsapp" href="https://wa.me/447510837225" onclick="if(window.gtag){gtag('event','whatsapp_click',{label:'footer_social'});}" rel="noopener" target="_blank"><i class="bi bi-whatsapp"></i></a>
+<a aria-label="Message Dreamy Cake Bakery on WhatsApp" class="whatsapp" href="https://wa.me/447510837225" rel="noopener" target="_blank"><i class="bi bi-whatsapp"></i></a>
 </div>
 <nav class="dc-footer-related-links" aria-label="Related sites">
 <span class="dc-footer-related-links__title">Related sites</span>
@@ -1818,7 +1717,7 @@
 <ul>
 <li><i aria-hidden="true" class="bi bi-geo-alt"></i><span>14 Elizabethan Way, Brampton<br/>Huntingdon, Cambridgeshire PE28 4SU</span></li>
 <li><i aria-hidden="true" class="bi bi-telephone"></i><a href="tel:+447510837225">+44 7510 837225</a></li>
-<li><i aria-hidden="true" class="bi bi-whatsapp"></i><a href="https://wa.me/447510837225" onclick="if(window.gtag){gtag('event','whatsapp_click',{label:'footer_contact'});}" rel="noopener" target="_blank">Message on WhatsApp</a></li>
+<li><i aria-hidden="true" class="bi bi-whatsapp"></i><a href="https://wa.me/447510837225" rel="noopener" target="_blank">Message on WhatsApp</a></li>
 <li><i aria-hidden="true" class="bi bi-envelope"></i><a href="mailto:contact@dreamycake.co.uk">contact@dreamycake.co.uk</a></li>
 <li><i aria-hidden="true" class="bi bi-clock"></i><span>Mon–Sat: 9am–8pm<br/>Sunday: 10am–5pm</span></li>
 </ul>
@@ -1826,7 +1725,7 @@
 </div>
 <div class="container dc-footer-bottom">
 <p>© 2026 <strong>Dreamy Cake Bakery</strong>. All rights reserved.</p>
-<div class="credits">Designed by <a href="mailto:bogbond@gmail.com" onclick="if(window.gtag){gtag('event','designer_email_click',{label:'contact'});}">Bond</a></div>
+<div class="credits">Designed by <a href="mailto:bogbond@gmail.com">Bond</a></div>
 </div>
 </footer>
 <!-- Scroll Top -->
@@ -1844,10 +1743,10 @@
 <script src="assets/vendor/aos/aos.js">
 </script>
 <!-- Main JS File -->
-<script src="assets/js/main.js">
+<script src="assets/js/main.js?v=analytics-1">
 </script>
 <script src="/assets/js/navfix.js"></script>
-<script defer="" src="/assets/js/know-more-gtag.js"></script>
+
 <script defer="" src="assets/js/promo-popup.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my date available?","acceptedAnswer":{"@type":"Answer","text":"We typically need 7–14 days. Rush orders may be possible by request. Tell us your date and delivery postcode — we’ll confirm availability and hold your slot with a 50% deposit. Usual reply time: 2–3 hours."}},{"@type":"Question","name":"How much will my cake cost?","acceptedAnswer":{"@type":"Answer","text":"Prices vary by servings, design detail and delivery. Check our Cake Menu and Servings guides, send your inspo, and we’ll suggest the right size with a no-obligation quote in 2–3 hours."}},{"@type":"Question","name":"What size do I need?","acceptedAnswer":{"@type":"Answer","text":"Use the Servings Guide to match guest count to cake size. If you’re between sizes, we’ll recommend the most cost-efficient option and adapt the design to suit."}},{"@type":"Question","name":"Do you deliver and set up?","acceptedAnswer":{"@type":"Answer","text":"Yes — we deliver within approximately 50 km of Cambridgeshire; further afield on request. Fees are postcode-based. For tiered or tall designs we can handle venue setup for safe placement."}},{"@type":"Question","name":"Can you do vegan / gluten-friendly / nut-free?","acceptedAnswer":{"@type":"Answer","text":"Options available on request. However, all cakes are made in a kitchen that handles gluten, dairy, eggs, nuts and soy, so they may not be suitable for severe allergies. See our Allergens page for details."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Allergens & dietary information (home section)","about":{"@type":"Thing","name":"Cake allergens and dietary options"},"audience":{"@type":"PeopleAudience","audienceType":"People with food allergies or intolerances"},"hasPart":{"@type":"ItemList","name":"Allergens handled","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"DefinedTerm","name":"Gluten"}},{"@type":"ListItem","position":2,"item":{"@type":"DefinedTerm","name":"Dairy"}},{"@type":"ListItem","position":3,"item":{"@type":"DefinedTerm","name":"Eggs"}},{"@type":"ListItem","position":4,"item":{"@type":"DefinedTerm","name":"Nuts"}},{"@type":"ListItem","position":5,"item":{"@type":"DefinedTerm","name":"Soy"}},{"@type":"ListItem","position":6,"item":{"@type":"DefinedTerm","name":"Sesame"}}]},"isPartOf":{"@type":"WebSite","name":"Dreamy Cake Bakery"},"mentions":[{"@type":"RestrictedDiet","name":"VeganDiet"},{"@type":"RestrictedDiet","name":"VegetarianDiet"}],"hasPartUrl":"https://dreamycake.co.uk/Allergens/"}</script>
@@ -1894,9 +1793,9 @@
         if(choice === 'accept') {
           gtag('consent', 'update', {
             analytics_storage: 'granted',
-            ad_storage: 'granted',
-            ad_user_data: 'granted',
-            ad_personalization: 'granted'
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
           });
           // Load GA once (no duplicates)
           if (typeof window.dcLoadGAOnce === 'function') {
@@ -1963,7 +1862,7 @@
 })();
 </script>
 <!-- DC:CONSENT_BANNER_END -->
-<script src="/assets/js/ga-funnel.js"></script>
+<script src="/assets/js/ga-funnel.js?v=2.0.0"></script>
 <script src="/assets/js/form-attachment-validation.js?v=3.30.0"></script>
 <script>
 (function(){
@@ -1999,5 +1898,5 @@
     });
   });
 })();
-</script><script src="/assets/js/formly-config.js?v=4.11.1"></script><script defer src="/assets/js/bundle-popup.js"></script></body>
+</script><script src="/assets/js/formly-config.js?v=4.12.0"></script><script defer src="/assets/js/bundle-popup.js"></script></body>
 </html>

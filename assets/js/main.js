@@ -428,42 +428,7 @@ document.addEventListener('DOMContentLoaded', function(){
   (mqMobile) && mqMobile.addEventListener('change', updateActive);
   updateActive();
 
-  // GA4 events
-  let listFired = false;
-  const listObserver = new IntersectionObserver((entries) => {
-    if (listFired) return;
-    entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-        listFired = true;
-        if (window.gtag) {
-          const items = cards.map(c => ({ 
-            item_id: c.dataset.itemId || '',
-            item_name: c.dataset.itemName || '',
-            item_category: c.dataset.itemCategory || 'cakes',
-            price: c.dataset.itemPrice || ''
-          }));
-          window.gtag('event', 'view_item_list', { item_list_name: 'Cake Menu', items });
-        }
-        listObserver.disconnect();
-      }
-    });
-  }, { threshold: [0, .5, 1] });
-  listObserver.observe(section);
-
-  function clickHandler(e){
-    const card = e.currentTarget.closest('.price-card');
-    if (!card || !window.gtag) return;
-    window.gtag('event', 'select_item', {
-      item_list_name: 'Cake Menu',
-      items: [{
-        item_id: card.dataset.itemId || '',
-        item_name: card.dataset.itemName || '',
-        item_category: card.dataset.itemCategory || 'cakes',
-        price: card.dataset.itemPrice || ''
-      }]
-    });
-  }
-  cards.forEach(c => c.querySelectorAll('a').forEach(a => (a) && a.addEventListener('click', clickHandler)));
+  // Menu measurement is owned by ga-funnel.js (per-card visibility + consent).
 });
 
 
