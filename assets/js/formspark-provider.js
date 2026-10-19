@@ -36,8 +36,10 @@
         var box = document.createElement('div');
         box.className = 'my-3';
         box.setAttribute('data-dreamy-captcha','true');
+        var mount = form.querySelector('[data-dreamy-captcha-mount]');
         var button = form.querySelector('button[type="submit"], input[type="submit"]');
-        if(button) button.parentNode.insertBefore(box,button);
+        if(mount){ mount.hidden = false; mount.appendChild(box); }
+        else if(button) button.parentNode.insertBefore(box,button);
         else form.appendChild(box);
         form._dreamyCaptchaId = window.turnstile.render(box, {
           sitekey:c.turnstileSiteKey,

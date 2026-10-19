@@ -1,4 +1,4 @@
-/* v4.12.1 three form providers; respect disabled fieldsets.
+/* v4.12.2 three form providers; respect disabled fieldsets; visible CAPTCHA mount.
    Change only assets/data/form-provider.txt:
    0 = FormSubmit, 1 = Formly, 2 = Formspark with protected photo uploads.
 
@@ -79,7 +79,7 @@
     if(!formsparkModulePromise){
       formsparkModulePromise = new Promise(function(resolve, reject){
         var script = document.createElement('script');
-        script.src = '/assets/js/formspark-provider.js?v=1.0.0';
+        script.src = '/assets/js/formspark-provider.js?v=1.0.1';
         script.onload = function(){
           if(window.DreamyFormspark) resolve(window.DreamyFormspark);
           else reject(new Error('The protected form service could not be loaded.'));
