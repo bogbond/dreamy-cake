@@ -1,4 +1,4 @@
-/* v4.11.1 three form providers.
+/* v4.12.1 three form providers; respect disabled fieldsets.
    Change only assets/data/form-provider.txt:
    0 = FormSubmit, 1 = Formly, 2 = Formspark with protected photo uploads.
 
@@ -472,9 +472,14 @@
     return true;
   }
 
+  // :disabled also covers controls inherited from an inactive fieldset.
+  function controlIsDisabled(control){
+    return control.disabled || control.matches(':disabled');
+  }
+
   function controlValue(control){
     if(!control || !control.name) return null;
-    if(control.disabled) return null;
+    if(controlIsDisabled(control)) return null;
 
     var tag = control.tagName ? control.tagName.toLowerCase() : '';
     var type = (control.type || '').toLowerCase();
@@ -506,7 +511,7 @@
     var values = [];
     var controls = form.querySelectorAll(selector + '[name="' + cssValue(name) + '"]');
     Array.prototype.forEach.call(controls, function(control){
-      if(control.disabled) return;
+      if(controlIsDisabled(control)) return;
       var type = (control.type || '').toLowerCase();
       if((type === 'radio' || type === 'checkbox') && !control.checked) return;
       var val = controlValue(control);
@@ -534,7 +539,7 @@
     var controls = form.querySelectorAll('input, select, textarea');
 
     Array.prototype.forEach.call(controls, function(control){
-      if(!control || !control.name || control.disabled) return;
+      if(!control || !control.name || controlIsDisabled(control)) return;
       var type = (control.type || '').toLowerCase();
       var name = control.name || '';
 
@@ -573,7 +578,7 @@
   function firstValue(form, names){
     for(var i = 0; i < names.length; i++){
       var field = form.querySelector('[name="' + cssValue(names[i]) + '"]');
-      if(field && cleanForEmail(field.value || '')) return cleanForEmail(field.value || '');
+      if(field && !controlIsDisabled(field) && cleanForEmail(field.value || '')) return cleanForEmail(field.value || '');
     }
     return '';
   }
@@ -581,7 +586,7 @@
   function findSelectedFileInput(form){
     var inputs = form.querySelectorAll('input[type="file"]');
     for(var i = 0; i < inputs.length; i++){
-      if(inputs[i].files && inputs[i].files.length) return inputs[i];
+      if(!controlIsDisabled(inputs[i]) && inputs[i].files && inputs[i].files.length) return inputs[i];
     }
     return null;
   }
