@@ -3,7 +3,9 @@
 <html lang="en-GB">
 <head>
 <!-- DC:GA4_CONSENT_HEAD_START -->
-<script src="/assets/js/analytics-core.js?v=1.0.0"></script>
+<link rel="stylesheet" href="/assets/css/consent-banner.css?v=2.0.0">
+<script src="/assets/js/consent-state.js?v=2.0.0"></script>
+<script src="/assets/js/analytics-core.js?v=2.0.0"></script>
 <!-- DC:GA4_CONSENT_HEAD_END -->
 
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -152,11 +154,11 @@
 <span>Legal information</span>
 <h1>Privacy Policy</h1>
 <p>How Dreamy Cake Bakery collects, uses and protects your information.</p>
-<small>Last updated: 16 May 2026</small>
+<small>Last updated: 21 October 2026</small>
 </div>
 </section>
 <section class="dc-legal-section">
-<div class="container"><article class="dc-legal-card"><h2>Last Updated: 16 May 2026</h2>
+<div class="container"><article class="dc-legal-card"><h2>Last Updated: 21 October 2026</h2>
 <p>
         Welcome to DREAMY CAKE STUDIO LTD. This Privacy Policy outlines how we collect, use,
         store, and protect your personal information in compliance with the
@@ -173,7 +175,7 @@
 <li>Dietary or allergen notes, reference links, inspiration images/files and any other details you choose to include in your message or order request</li>
 </ul>
 <h3>1.2 Usage Data</h3>
-<p>If you accept analytics cookies, we use analytics tools to collect non-personal information about your interaction with our Site, such as:</p>
+<p>If you accept Analytics, Google Analytics processes technical and usage information about your interaction with our Site, such as:</p>
 <ul>
 <li>Your IP address</li>
 <li>Browser type and version</li>
@@ -181,8 +183,12 @@
 <li>Time spent on each page</li>
 <li>Referring URLs</li>
 </ul>
-<h3>1.3 Cookies &amp; similar technologies</h3>
+<h3 id="cookies">1.3 Cookies &amp; similar technologies</h3>
 <p>We use essential cookies and similar technologies (such as <strong>localStorage</strong>) to make the Site work and to remember your preferences (for example, your cookie choice). We also store a non-personal preference flag to limit how often we show on-site announcements or special offers (typically for up to 24 hours). You can clear this information at any time via your browser settings.</p>
+<h4>Your cookie choices</h4>
+<p>Select Accept all to allow both optional purposes, or open More details to review the switches and select Save choices. For a new choice, switches are initially on as a draft; optional measurement stays off until you save or accept. To decline optional measurement, switch Analytics off and save; Advertising measurement is also switched off. Previously saved choices are shown as saved. Closing preferences does not save changes. Essential storage remembers your choice and protects enquiry forms. Analytics measures pages, product choices and enquiry steps. Advertising measurement allows Google to connect advertising clicks with accepted enquiries through our Google Analytics conversion. For this integration, Advertising measurement requires Analytics; switching Analytics off also switches Advertising measurement off. We do not enable personalised advertising or remarketing through this choice.</p>
+<p>Optional purposes are off until you choose them. An older Analytics-only choice does not enable advertising measurement. We remember your choices for up to 180 days, after which we ask again. Use the Cookies button on any page to change or withdraw your choices. Declining optional purposes does not prevent you from browsing or sending an enquiry. Our analytics event parameters exclude your typed messages, contact details and uploaded filenames. Google also receives technical network information when its services load. Your preference is stored locally in this browser; it is not an account-wide setting.</p>
+<p>When Advertising measurement is declined, ad_storage and ad_user_data remain denied. ad_personalization remains denied for every choice. Google processes permitted measurement data under its own <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">privacy policy</a>.</p>
 <h2>2. How We Use Your Information</h2>
 <h3>2.1 Personal Data</h3>
 <p>The personal data collected is used to:</p>
@@ -337,116 +343,7 @@
 <script src="/assets/js/main.js?v=analytics-1"></script>
 <script src="/assets/js/navfix.js"></script>
 <!-- DC:CONSENT_BANNER_START -->
-
-<script>
-(function(){
-  try {
-    // Create "Manage cookies" floating button
-    var manage = document.createElement('button');
-    manage.className = 'dc-consent-manage';
-    manage.type = 'button';
-    manage.textContent = 'Cookies';
-    manage.setAttribute('aria-label','Manage cookies');
-    manage.addEventListener('click', function(){ showBanner(true); });
-
-    // Build banner
-    function showBanner(force) {
-      var saved = null;
-      try { saved = JSON.parse(localStorage.getItem('dc_consent') || '{}'); } catch(e){}
-      if(!force && saved && (saved.choice === 'accept' || saved.choice === 'reject')) return;
-      var wrap = document.createElement('div');
-      wrap.className = 'dc-consent-banner';
-      wrap.setAttribute('role','dialog');
-      wrap.setAttribute('aria-live','polite');
-      wrap.innerHTML = ''
-        + '<div class="dc-consent-banner__text">To keep things simple, we use essential cookies. If you’re happy, we’ll also use analytics to learn what’s working. You can update your choice anytime in “Cookies”.</div>'
-        + '<div class="dc-consent-banner__btns">'
-        +   '<button type="button" class="dc-btn" data-choice="reject">Reject non-essential</button>'
-        +   '<button type="button" class="dc-btn dc-btn--primary" data-choice="accept">Accept all</button>'
-        + '</div>';
-      document.body.appendChild(wrap);
-      wrap.querySelectorAll('button[data-choice]').forEach(function(btn){
-        btn.addEventListener('click', function(){ setChoice(this.getAttribute('data-choice')); });
-      });
-    }
-
-    function setChoice(choice) {
-      try { localStorage.setItem('dc_consent', JSON.stringify({choice: choice})); } catch(e){}
-      window.__dc_consent_choice = choice;
-
-      // Update Consent Mode in real-time
-      if (typeof gtag === 'function') {
-        if(choice === 'accept') {
-          gtag('consent', 'update', {
-            analytics_storage: 'granted',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied'
-          });
-          // Load GA once (no duplicates)
-          if (typeof window.dcLoadGAOnce === 'function') {
-            window.dcLoadGAOnce();
-          }
-        } else {
-          gtag('consent', 'update', {
-            analytics_storage: 'denied',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied'
-          });
-          // Best-effort cookie cleanup
-          if (typeof window.dcClearGACookies === 'function') {
-            window.dcClearGACookies();
-          }
-        }
-      }
-
-      var b = document.querySelector('.dc-consent-banner'); if(b) b.remove();
-    }
-
-    // Try to avoid overlap with existing fixed "back to top" buttons
-    function avoidOverlap() {
-      try {
-        var candidates = [
-          '.back-to-top', '.scroll-to-top', '.scroll-top', '.to-top', '.btn-to-top',
-          '#backToTop', '#toTop', '#totop', '[data-backtotop]', '[data-scroll-top]'
-        ];
-        var el = null;
-        for (var i=0; i<candidates.length; i++) {
-          var found = document.querySelector(candidates[i]);
-          if(found) { el = found; break; }
-        }
-        // Reset
-        manage.classList.remove('dc-lift');
-        manage.style.right = ''; manage.style.left = ''; manage.style.bottom = '';
-        // On small screens we already push left via CSS, skip overlap logic
-        if (window.matchMedia('(max-width: 480px)').matches) return;
-        if (!el) return;
-        var r = el.getBoundingClientRect();
-        // Heuristic: if the element sits bottom-right within 120px from the viewport edge, lift our button
-        var nearBottom = (window.innerHeight - r.bottom) <= 120;
-        var nearRight  = (window.innerWidth  - r.right)  <= 120;
-        var visible = r.width>0 && r.height>0;
-        if (visible && nearBottom && nearRight) {
-          // // manage.classList.add('dc-lift'); // disabled // disabled
-        }
-      } catch(e){}
-    }
-
-    document.addEventListener('DOMContentLoaded', function(){
-      document.body.appendChild(manage);
-      showBanner(false);
-      avoidOverlap();
-    });
-    window.addEventListener('scroll', avoidOverlap, {passive:true});
-    window.addEventListener('resize', avoidOverlap);
-
-    // Run a few times shortly after load to catch late-mounted widgets
-    setTimeout(avoidOverlap, 300);
-    setTimeout(avoidOverlap, 1000);
-  } catch(e){ console.error('Consent banner error', e); }
-})();
-</script>
+<script defer src="/assets/js/consent-banner.js?v=2.0.0"></script>
 <!-- DC:CONSENT_BANNER_END -->
 
 <script src="/assets/js/ga-funnel.js?v=2.0.0"></script>

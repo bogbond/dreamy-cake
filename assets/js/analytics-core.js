@@ -1,11 +1,10 @@
-/* Dreamy Cake analytics v1. Basic consent: no Google tag until analytics consent.
+/* Dreamy Cake analytics v2. Purpose-specific consent: no Google tag until analytics consent.
    Only the published website can send data. Local previews retain an in-memory log. */
 (function(){
   'use strict';
   var id = 'G-CC2NRDSRQ9';
   var live = location.protocol === 'https:' && /^(www\.)?dreamycake\.co\.uk$/.test(location.hostname);
-  var choice = null;
-  try { var saved=JSON.parse(localStorage.getItem('dc_consent')||'{}'); choice=/^(accept|reject)$/.test(saved.choice)?saved.choice:null; } catch(e){}
+  var choice=window.DreamyConsent&&window.DreamyConsent.get().analytics?'accept':'reject';
   window.GA_MEASUREMENT_ID=id;
   window.__dc_consent_choice=choice;
   window.__ga_loaded=false;
@@ -17,6 +16,16 @@
   var allowedParams=['page_path','page_type','product_slug','form_id','form_type','location','step_name','option_name','option_code','field_group','error_type','provider','contact_method','interaction','section_id','promotion_id','item_list_name','items','item_id','item_name','item_category'];
   function pathOnly(value){
     try { var u=new URL(value,location.origin); return u.origin===location.origin?u.origin+u.pathname:u.origin+'/'; } catch(e){return '';}
+  }
+  function measurementLocation(){
+    var result=location.origin+location.pathname;
+    if(!(window.DreamyConsent&&window.DreamyConsent.get().advertising))return result;
+    var query=new URLSearchParams(location.search),attribution=new URLSearchParams();
+    ['gclid','dclid','gbraid','wbraid','gad_source'].forEach(function(key){var value=query.get(key);if(value&&/^[a-zA-Z0-9_-]{1,256}$/.test(value))attribution.set(key,value);});
+    return result+(attribution.toString()?'?'+attribution.toString():'');
+  }
+  function clearAdCookies(){
+    try{document.cookie.split(';').forEach(function(c){var name=c.split('=')[0].trim();if(!/^(_gcl_|_gac_)/.test(name))return;['',location.hostname,'.'+location.hostname,'.dreamycake.co.uk'].forEach(function(domain){document.cookie=name+'=; Max-Age=0; path=/'+(domain?'; domain='+domain:'');});});}catch(e){}
   }
   function cleanParams(params){
     var result={};
@@ -33,7 +42,7 @@
     return result;
   }
   function notify(){document.dispatchEvent(new CustomEvent('dc:analytics-ready'));}
-  function consentParams(granted){return {analytics_storage:granted?'granted':'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted'};}
+  function consentParams(granted){var ads=granted&&window.DreamyConsent&&window.DreamyConsent.get().advertising;return {analytics_storage:granted?'granted':'denied',ad_storage:ads?'granted':'denied',ad_user_data:ads?'granted':'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted'};}
   window.gtag=function(command,name,params){
     try {
       if(command==='consent'){
@@ -66,19 +75,12 @@
     window.__ga_loaded=true;
     if(live){
       window.gtag('js',new Date());
-      var config={send_page_view:true,page_location:location.origin+location.pathname,page_referrer:pathOnly(document.referrer),allow_google_signals:false,allow_ad_personalization_signals:false};
+      var config={send_page_view:true,page_location:measurementLocation(),page_referrer:pathOnly(document.referrer),allow_google_signals:false,allow_ad_personalization_signals:false};
       // Preserve campaign attribution without forwarding arbitrary query parameters.
       var query=new URLSearchParams(location.search);
       [['utm_source','campaign_source'],['utm_medium','campaign_medium'],['utm_campaign','campaign_name'],['utm_id','campaign_id'],['utm_content','campaign_content'],['utm_term','campaign_term']].forEach(function(pair){
         var v=query.get(pair[0]);if(v&&/^[a-zA-Z0-9 _.-]{1,100}$/.test(v))config[pair[1]]=v;
       });
-      // Keep recognised advertising click IDs available for attribution, without
-      // copying other URL fields or granting advertising consent.
-      var attribution=new URLSearchParams();
-      ['gclid','dclid','gbraid','wbraid','gad_source'].forEach(function(key){
-        var value=query.get(key);if(value&&/^[a-zA-Z0-9_-]{1,256}$/.test(value))attribution.set(key,value);
-      });
-      if(attribution.toString())config.page_location+='?'+attribution.toString();
       window.gtag('config',id,config);
       if(!document.querySelector('script[data-dc-google-tag]')){
         var script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+id;script.setAttribute('data-dc-google-tag','');document.head.appendChild(script);
@@ -86,6 +88,16 @@
     }
     notify();
   };
+  document.addEventListener('dc:consent-change',function(){
+    var prefs=window.DreamyConsent.get();
+    window.gtag('consent','update',{});
+    if(!prefs.advertising)clearAdCookies();
+    if(prefs.analytics){
+      if(window.__ga_loaded&&live)window.gtag('config',id,{send_page_view:false,page_location:measurementLocation(),allow_google_signals:false,allow_ad_personalization_signals:false});
+      window.dcLoadGAOnce();
+    }else window.dcClearGACookies();
+  });
+  if(!(window.DreamyConsent&&window.DreamyConsent.get().advertising))clearAdCookies();
   if(!live)window.DreamyAnalyticsDebug={events:log,clear:function(){log.length=0;}};
   window.gtag('consent','default',{});
   if(choice==='accept')window.dcLoadGAOnce();

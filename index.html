@@ -3,7 +3,9 @@
 <html lang="en-GB">
 <head>
 <!-- DC:GA4_CONSENT_HEAD_START -->
-<script src="/assets/js/analytics-core.js?v=1.0.0"></script>
+<link rel="stylesheet" href="/assets/css/consent-banner.css?v=2.0.0">
+<script src="/assets/js/consent-state.js?v=2.0.0"></script>
+<script src="/assets/js/analytics-core.js?v=2.0.0"></script>
 <!-- DC:GA4_CONSENT_HEAD_END -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -1751,116 +1753,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my date available?","acceptedAnswer":{"@type":"Answer","text":"We typically need 7–14 days. Rush orders may be possible by request. Tell us your date and delivery postcode — we’ll confirm availability and hold your slot with a 50% deposit. Usual reply time: 2–3 hours."}},{"@type":"Question","name":"How much will my cake cost?","acceptedAnswer":{"@type":"Answer","text":"Prices vary by servings, design detail and delivery. Check our Cake Menu and Servings guides, send your inspo, and we’ll suggest the right size with a no-obligation quote in 2–3 hours."}},{"@type":"Question","name":"What size do I need?","acceptedAnswer":{"@type":"Answer","text":"Use the Servings Guide to match guest count to cake size. If you’re between sizes, we’ll recommend the most cost-efficient option and adapt the design to suit."}},{"@type":"Question","name":"Do you deliver and set up?","acceptedAnswer":{"@type":"Answer","text":"Yes — we deliver within approximately 50 km of Cambridgeshire; further afield on request. Fees are postcode-based. For tiered or tall designs we can handle venue setup for safe placement."}},{"@type":"Question","name":"Can you do vegan / gluten-friendly / nut-free?","acceptedAnswer":{"@type":"Answer","text":"Options available on request. However, all cakes are made in a kitchen that handles gluten, dairy, eggs, nuts and soy, so they may not be suitable for severe allergies. See our Allergens page for details."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Allergens & dietary information (home section)","about":{"@type":"Thing","name":"Cake allergens and dietary options"},"audience":{"@type":"PeopleAudience","audienceType":"People with food allergies or intolerances"},"hasPart":{"@type":"ItemList","name":"Allergens handled","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"DefinedTerm","name":"Gluten"}},{"@type":"ListItem","position":2,"item":{"@type":"DefinedTerm","name":"Dairy"}},{"@type":"ListItem","position":3,"item":{"@type":"DefinedTerm","name":"Eggs"}},{"@type":"ListItem","position":4,"item":{"@type":"DefinedTerm","name":"Nuts"}},{"@type":"ListItem","position":5,"item":{"@type":"DefinedTerm","name":"Soy"}},{"@type":"ListItem","position":6,"item":{"@type":"DefinedTerm","name":"Sesame"}}]},"isPartOf":{"@type":"WebSite","name":"Dreamy Cake Bakery"},"mentions":[{"@type":"RestrictedDiet","name":"VeganDiet"},{"@type":"RestrictedDiet","name":"VegetarianDiet"}],"hasPartUrl":"https://dreamycake.co.uk/Allergens/"}</script>
 <!-- DC:CONSENT_BANNER_START -->
-
-<script>
-(function(){
-  try {
-    // Create "Manage cookies" floating button
-    var manage = document.createElement('button');
-    manage.className = 'dc-consent-manage';
-    manage.type = 'button';
-    manage.textContent = 'Cookies';
-    manage.setAttribute('aria-label','Manage cookies');
-    manage.addEventListener('click', function(){ showBanner(true); });
-
-    // Build banner
-    function showBanner(force) {
-      var saved = null;
-      try { saved = JSON.parse(localStorage.getItem('dc_consent') || '{}'); } catch(e){}
-      if(!force && saved && (saved.choice === 'accept' || saved.choice === 'reject')) return;
-      var wrap = document.createElement('div');
-      wrap.className = 'dc-consent-banner';
-      wrap.setAttribute('role','dialog');
-      wrap.setAttribute('aria-live','polite');
-      wrap.innerHTML = ''
-        + '<div class="dc-consent-banner__text">To keep things simple, we use essential cookies. If you’re happy, we’ll also use analytics to learn what’s working. You can update your choice anytime in “Cookies”.</div>'
-        + '<div class="dc-consent-banner__btns">'
-        +   '<button type="button" class="dc-btn" data-choice="reject">Reject non-essential</button>'
-        +   '<button type="button" class="dc-btn dc-btn--primary" data-choice="accept">Accept all</button>'
-        + '</div>';
-      document.body.appendChild(wrap);
-      wrap.querySelectorAll('button[data-choice]').forEach(function(btn){
-        btn.addEventListener('click', function(){ setChoice(this.getAttribute('data-choice')); });
-      });
-    }
-
-    function setChoice(choice) {
-      try { localStorage.setItem('dc_consent', JSON.stringify({choice: choice})); } catch(e){}
-      window.__dc_consent_choice = choice;
-
-      // Update Consent Mode in real-time
-      if (typeof gtag === 'function') {
-        if(choice === 'accept') {
-          gtag('consent', 'update', {
-            analytics_storage: 'granted',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied'
-          });
-          // Load GA once (no duplicates)
-          if (typeof window.dcLoadGAOnce === 'function') {
-            window.dcLoadGAOnce();
-          }
-        } else {
-          gtag('consent', 'update', {
-            analytics_storage: 'denied',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied'
-          });
-          // Best-effort cookie cleanup
-          if (typeof window.dcClearGACookies === 'function') {
-            window.dcClearGACookies();
-          }
-        }
-      }
-
-      var b = document.querySelector('.dc-consent-banner'); if(b) b.remove();
-    }
-
-    // Try to avoid overlap with existing fixed "back to top" buttons
-    function avoidOverlap() {
-      try {
-        var candidates = [
-          '.back-to-top', '.scroll-to-top', '.scroll-top', '.to-top', '.btn-to-top',
-          '#backToTop', '#toTop', '#totop', '[data-backtotop]', '[data-scroll-top]'
-        ];
-        var el = null;
-        for (var i=0; i<candidates.length; i++) {
-          var found = document.querySelector(candidates[i]);
-          if(found) { el = found; break; }
-        }
-        // Reset
-        manage.classList.remove('dc-lift');
-        manage.style.right = ''; manage.style.left = ''; manage.style.bottom = '';
-        // On small screens we already push left via CSS, skip overlap logic
-        if (window.matchMedia('(max-width: 480px)').matches) return;
-        if (!el) return;
-        var r = el.getBoundingClientRect();
-        // Heuristic: if the element sits bottom-right within 120px from the viewport edge, lift our button
-        var nearBottom = (window.innerHeight - r.bottom) <= 120;
-        var nearRight  = (window.innerWidth  - r.right)  <= 120;
-        var visible = r.width>0 && r.height>0;
-        if (visible && nearBottom && nearRight) {
-          // // manage.classList.add('dc-lift'); // disabled // disabled
-        }
-      } catch(e){}
-    }
-
-    document.addEventListener('DOMContentLoaded', function(){
-      document.body.appendChild(manage);
-      showBanner(false);
-      avoidOverlap();
-    });
-    window.addEventListener('scroll', avoidOverlap, {passive:true});
-    window.addEventListener('resize', avoidOverlap);
-
-    // Run a few times shortly after load to catch late-mounted widgets
-    setTimeout(avoidOverlap, 300);
-    setTimeout(avoidOverlap, 1000);
-  } catch(e){ console.error('Consent banner error', e); }
-})();
-</script>
+<script defer src="/assets/js/consent-banner.js?v=2.0.0"></script>
 <!-- DC:CONSENT_BANNER_END -->
 <script src="/assets/js/ga-funnel.js?v=2.0.0"></script>
 <script src="/assets/js/form-attachment-validation.js?v=3.30.0"></script>
