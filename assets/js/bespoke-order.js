@@ -24,6 +24,8 @@
     cupcakeDietaryNote: document.getElementById('boCupcakeDietaryNote'),
     flavour: document.getElementById('boFlavour'),
     cakeSize: document.getElementById('boCakeSize'),
+    cakeShape: document.getElementById('boCakeShape'),
+    cakeSizeNote: document.querySelector('#boCakeSize + .form-text'),
     cupcakeQty: document.getElementById('boCupcakeQty'),
     cupcakeFlavourFeedback: document.getElementById('cupcakeFlavourFeedback'),
     fileInput: document.getElementById('boAttachments'),
@@ -47,6 +49,27 @@
     hiddenDeliverySummary: document.getElementById('boHiddenDeliverySummary'),
     hiddenRequestSummary: document.getElementById('boHiddenRequestSummary')
   };
+
+  var originalShapeOptions = els.cakeShape ? Array.prototype.map.call(els.cakeShape.options, function(opt){ return opt.cloneNode(true); }) : [];
+  var bentoShapeActive = false, previousCakeShape = '';
+  var originalCakeSizeNote = els.cakeSizeNote ? els.cakeSizeNote.textContent : '';
+
+  function updateCakeShape(category){
+    if(!els.cakeShape) return;
+    var isBento = hasCake() && category === 'Mini / Bento Cake';
+    if(isBento === bentoShapeActive) return;
+    if(isBento){
+      previousCakeShape = els.cakeShape.value;
+      var round = document.createElement('option');
+      round.value = 'Round';round.textContent = 'Round Cake';
+      els.cakeShape.replaceChildren(round);
+      els.cakeShape.value = 'Round';
+    }else{
+      els.cakeShape.replaceChildren.apply(els.cakeShape, originalShapeOptions.map(function(opt){ return opt.cloneNode(true); }));
+      els.cakeShape.value = previousCakeShape;
+    }
+    bentoShapeActive = isBento;
+  }
 
   function money(n){
     n = Number(n) || 0;
@@ -194,6 +217,15 @@
       if(category === 'Wedding / Tiered Cake') price = Math.max(price, 150);
       opt.textContent = opt.getAttribute('data-label') + ' - from ' + money(price);
     });
+    var isBento = hasCake() && category === 'Mini / Bento Cake';
+    var placeholder = els.cakeSize.options[0];
+    if(els.cakeSizeNote) els.cakeSizeNote.textContent = isBento ? 'One size, 2-4 servings. Mini / Bento cakes are round. Final quote depends on design, flavour and delivery.' : originalCakeSizeNote;
+    if(placeholder && !placeholder.value){placeholder.hidden = isBento;placeholder.disabled = isBento;}
+    if(isBento){
+      var onlySize = Array.prototype.find.call(els.cakeSize.options, function(opt){ return opt.value && !opt.disabled; });
+      if(onlySize) els.cakeSize.value = onlySize.value;
+    }
+    updateCakeShape(category);
   }
 
   function cakeEstimate(){

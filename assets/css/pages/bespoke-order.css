@@ -313,3 +313,10 @@ textarea.form-control{min-height:112px}.form-control:focus,.form-select:focus{bo
     width: 100%;
   }
 }
+
+/* Product-first enquiry: concise local context and a clear final contact step. */
+.bespoke-hero__area{max-width:660px;margin:.85rem 0 0;color:rgba(255,255,255,.92);font-size:1rem;line-height:1.65}
+.bespoke-hero__area strong{font-weight:600;color:#fff}
+.panel-intro{margin:-.15rem 0 1.25rem;color:var(--dc-mauve);font-size:.96rem;line-height:1.65}
+
+.bespoke-order-page .product-choice-feedback[hidden]{display:none!important}
