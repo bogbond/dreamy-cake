@@ -1,0 +1,12 @@
+{
+  "name":"dreamy-cake-forms",
+  "account_id":"0b14cc4c073e7e61ad90023f263b3e02",
+  "main":"worker.mjs",
+  "compatibility_date":"2026-09-30",
+  "workers_dev":true,
+  "preview_urls":false,
+  "keep_vars":true,
+  "vars":{"RETENTION_DRY_RUN":"false"},
+  "observability":{"enabled":true,"head_sampling_rate":1,"logs":{"enabled":true,"head_sampling_rate":1,"persist":true,"invocation_logs":true},"traces":{"enabled":false,"persist":true,"head_sampling_rate":1}},
+  "triggers":{"crons":["0 6 * * *"]}
+}

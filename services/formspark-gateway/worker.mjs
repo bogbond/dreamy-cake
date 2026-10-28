@@ -1,3 +1,4 @@
+import {cleanExpired} from './retention.mjs';
 // Cloudflare Worker module. All credentials are configured as encrypted Worker secrets.
 // Required: FORMSPARK_FORM_ID, TURNSTILE_SECRET_KEY,
 // CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET.
@@ -105,6 +106,11 @@ async function upload(file,env,id){
   return result.secure_url;
 }
 export default {
+  scheduled(controller,env,ctx){
+    ctx.waitUntil(cleanExpired(env,{now:controller.scheduledTime}).then(stats=>console.log(JSON.stringify(stats))).catch(error=>{
+      console.error('Dreamy Cake retention did not complete: '+error.message);throw error;
+    }));
+  },
   async fetch(request,env){
     const origin=request.headers.get('Origin')||'';
     if(!ORIGINS.includes(origin)) return new Response('Forbidden',{status:403});
