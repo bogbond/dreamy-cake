@@ -1,4 +1,5 @@
 import {cleanExpired} from './retention.mjs';
+import {pilotNotification} from './email-design.mjs';
 // Cloudflare Worker module. All credentials are configured as encrypted Worker secrets.
 // Required: FORMSPARK_FORM_ID, TURNSTILE_SECRET_KEY,
 // CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET.
@@ -55,7 +56,7 @@ function payloadFrom(form,origin){
     }
     return `${text(row.label,200)}: ${row.value}`;
   });
-  return {name,email,subject:text(data.subject,150)||'Dreamy Cake enquiry',form:text(data.form,200),page:page.href,fields};
+  return {name,email,subject:text(data.subject,150)||'Dreamy Cake enquiry',form:text(data.form,200),page:page.href,fields,fieldRows:data.fields.map(r=>({label:text(r.label,200),value:r.value}))};
 }
 async function checkFile(file){
   if(!file || typeof file==='string' || file.size===0) return null;
@@ -136,11 +137,14 @@ export default {
       await verify(form,request,env,origin);
       const id=crypto.randomUUID();
       const photo=file ? await upload(file,env,id) : '';
-      const submission={name:data.name,email:data.email,subject:data.subject,
+      const createdAt=new Date().toISOString();
+      let submission={name:data.name,email:data.email,subject:data.subject,
         Form:data.form,'Page URL':data.page,'Submission ID':id,
-        'Submitted at':new Date().toISOString(),message:data.fields.join('\n\n')};
+        'Submitted at':createdAt,message:data.fields.join('\n\n')};
       if(photo){ submission['Attachment URL']=photo; submission['Attachment name']=file.name; }
-      const response=await timedFetch(`https://submit-form.com/${env.FORMSPARK_FORM_ID}`,{
+      const pilot=pilotNotification(data,{id,createdAt,photo,fileName:file?.name},env);
+      if(pilot)submission={...submission,...pilot.submission};
+      const response=await timedFetch(`https://submit-form.com/${pilot?pilot.formId:env.FORMSPARK_FORM_ID}`,{
         method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(submission)
       },20000);
       const result=await response.json().catch(()=>({}));
