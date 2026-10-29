@@ -1,28 +1,35 @@
-# Dreamy Cake notification design — stage 1
+# Dreamy Cake enquiry notifications
 
-Only the home Contact form and standard `/Products/cupcakes/` form use this design. Other product, bespoke, corporate and express enquiries keep the original Formspark destination and payload.
+All 19 public enquiry forms use the Dreamy Cake cream/gold design with a clickable cake icon, bold sans-serif headings, grouped fields and explicit empty values. Existing values, commercial descriptions and estimates are preserved; the gateway does not calculate prices.
 
 ## Provider resources
 
-Shared Formspark workspace: `VVckLKghq`. Both new forms notify the existing recipient `quotes@dreamycake.co.uk`. Notifications and spam filtering are enabled. Grouping unrelated submissions into a single email thread is disabled; subjects include the customer name and a unique reference.
+Shared Formspark workspace: `VVckLKghq`. All three Dreamy Cake destinations notify the existing `quotes@dreamycake.co.uk` recipient. Bondar Labs resources are unchanged.
 
-| Website form | Formspark ID | Postcraft template ID |
-| --- | --- | --- |
-| Contact form - Home page | kMiBpt8u8 | fj3zmYE3O0IZfBe6qKvoH |
-| Product order form - Cupcakes | QapOFnHa2 | xpoKoBokWmunG2fUi1bR7 |
+| Forms | Formspark ID | Postcraft template | Source |
+| --- | --- | --- | --- |
+| Home Contact | kMiBpt8u8 | fj3zmYE3O0IZfBe6qKvoH | dreamy-email.html |
+| Standard Cupcakes | QapOFnHa2 | xpoKoBokWmunG2fUi1bR7 | dreamy-email.html |
+| All other 17 forms | IB5AFw6gt | UC2jTuKZufDxlrqlCkx_G | dreamy-all-email.html |
 
-The original form `IB5AFw6gt` remains configured through the existing `FORMSPARK_FORM_ID` secret. Two ordinary Worker variables select the pilot forms: `FORMSPARK_CONTACT_FORM_ID` and `FORMSPARK_CUPCAKES_FORM_ID`. These IDs are routing identifiers, not authentication credentials. Removing either pilot variable restores that type to the original destination. Do not remove the original secret.
+The other forms are Bespoke, Corporate Cakes, Celebration, Themed, Wedding, Mini/Bento, Classic, Express Bento, Express Cupcakes, Freshly Made Cookies, Postage Cookie and six seasonal collections. Corporate quote requests and quick questions have different fields. Bespoke supports cakes, cupcakes and combined requests.
 
-## Payload and template
+## Schema and compatibility
 
-`email-design.mjs` matches both the exact form label and page path. It groups validated fields into `Groups`, retaining every expected field. Empty text is `Not provided`, an empty choice is `Not selected`, and an absent attachment is `Not attached`. Unknown supplied fields appear under Additional details. Existing selected values, prices and commercial descriptions are preserved without calculations.
+`email-schemas.mjs` declares expected fields and aliases for existing frontend labels. `email-design.mjs` matches page path and form label. Empty text shows Not provided; unselected choices show Not selected; a missing file shows Not attached. Known empty-option prompts such as Choose frosting are treated as unselected. Unknown supplied fields appear under Additional details.
 
-`dreamy-email.html` is the published Handlebars source for both templates. Root variables use `data.*`; group items use relative labels and values. Values are escaped. Customer reference links and original attachment URLs appear in full as plain text; no shortened destination or image preview is generated. Mail clients may independently detect URLs. The official cake icon and wordmark link to the website. The template contains no Formspark promotional block.
+Templates use escaped Handlebars values. Customer URLs and original attachment URLs remain full visible text with query parameters. No image previews, conversions or shortened destinations are generated. Email apps can independently detect URLs. The general template also displays legacy flat messages and attachment URLs, so rollback preserves the email content.
 
-The top-level `email` keeps Formspark's customer Reply-To behavior. `_email.subject` supplies a readable enquiry type, customer name and unique `DC-` reference, with line breaks removed. The template subject is also configured as `Dreamy Cake | {{data.Heading}} — {{data.name}} [{{data.Reference}}]`.
+The top-level email retains the customer Reply-To. The Worker supplies a subject containing Dreamy Cake, enquiry type, customer name and a unique DC- reference, with line breaks removed. The general template's legacy subject is `Dreamy Cake | {{data.subject}}`.
 
-## Boundaries and deployment
+## Configuration and rollback
 
-Deploy the gateway with its existing `wrangler.jsonc`. Preserve the five existing secrets, account, Worker name, daily 06:00 UTC cleanup, observability and compatibility date. Six-calendar-month retention, upload validation, CAPTCHA validation, response handling and website provider selection are unchanged. No static form HTML or frontend scripts are changed for this stage.
+Keep the five existing Worker secrets. FORMSPARK_FORM_ID remains the original destination. FORMSPARK_CONTACT_FORM_ID and FORMSPARK_CUPCAKES_FORM_ID select the dedicated destinations; these IDs are routing identifiers, not authentication credentials.
 
-Local tests: `node work/dreamy-retention/test-email-design.mjs` and `node work/dreamy-retention/test-retention.mjs` from the task workspace. These mock provider requests. Separate synthetic website submissions verify live routing; inbox delivery and rendering in Zoho must be confirmed by the owner before extending the design to other forms.
+FORMSPARK_ALL_EMAILS_ENABLED=true enables structured notifications for the other 17 forms. Set it to false to restore their original payload while retaining the compatible template. Removing a dedicated ID returns that type to the original destination and legacy payload.
+
+Deploy the existing wrangler.jsonc to the same account and Worker. Preserve CAPTCHA, request/file checks, responses, observability, compatibility date and daily 0 6 * * * cleanup. Six-calendar-month file retention is unchanged. No static form markup, frontend behavior, prices, payment terms or tracking choices are changed by this rollout. No paid plan or new database is required.
+
+## Verification boundaries
+
+Task-local tests cover all 19 schemas, original Contact/Cupcakes behavior, retention and 22 scenarios running the real site form scripts. Real provider acceptance, browser CAPTCHA completion and final inbox delivery are separate checks and must be reported separately. Source-runtime tests do not prove Zoho inbox rendering.

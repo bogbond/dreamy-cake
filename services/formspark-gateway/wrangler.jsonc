@@ -6,7 +6,7 @@
   "workers_dev":true,
   "preview_urls":false,
   "keep_vars":true,
-  "vars":{"RETENTION_DRY_RUN":"false","FORMSPARK_CONTACT_FORM_ID":"kMiBpt8u8","FORMSPARK_CUPCAKES_FORM_ID":"QapOFnHa2"},
+  "vars":{"RETENTION_DRY_RUN":"false","FORMSPARK_CONTACT_FORM_ID":"kMiBpt8u8","FORMSPARK_CUPCAKES_FORM_ID":"QapOFnHa2","FORMSPARK_ALL_EMAILS_ENABLED":"true"},
   "observability":{"enabled":true,"head_sampling_rate":1,"logs":{"enabled":true,"head_sampling_rate":1,"persist":true,"invocation_logs":true},"traces":{"enabled":false,"persist":true,"head_sampling_rate":1}},
   "triggers":{"crons":["0 6 * * *"]}
 }
